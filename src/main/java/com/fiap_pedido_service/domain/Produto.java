@@ -19,14 +19,11 @@ public class Produto {
 
     private LocalDateTime atualizadoEm;
 
-    public Produto(Long id, String sku, String nome, String descricao, BigDecimal preco, LocalDateTime criadoEm, LocalDateTime atualizadoEm) {
-        this.id = id;
+    private int quantidade;
+
+    public Produto(String sku, int quantidade) {
         this.sku = sku;
-        this.nome = nome;
-        this.descricao = descricao;
-        this.preco = preco;
-        this.criadoEm = criadoEm;
-        this.atualizadoEm = atualizadoEm;
+        this.quantidade = quantidade;
     }
 
     public Long getId() {
@@ -55,5 +52,9 @@ public class Produto {
 
     public LocalDateTime getAtualizadoEm() {
         return atualizadoEm;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
     }
 }

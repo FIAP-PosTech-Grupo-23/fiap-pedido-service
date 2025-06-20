@@ -8,7 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,27 +26,35 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase{
     @Override
     public void processaPedido(Pedido pedido) {
 
-        pedido.abrePedido();
+        List<String> skus = pedido.getProdutos().stream().map(Produto::getSku).toList();
 
-        Produto produto = produtoGateway.obtemDadosProduto(pedido.getSku());
+        List<Produto> produtosCompletos = produtoGateway.obtemDadosProdutos(skus);
 
         Cliente cliente = clienteGateway.obtemDadosCliente(pedido.getIdCliente());
 
-        estoqueGateway.baixaEstoque(produto.getId(), pedido.getQuantidade());
+        Map<Long, Integer> mapIdProdutoPorQuantidade = produtosCompletos.stream()
+                .collect(Collectors.toMap(Produto::getId, Produto::getQuantidade));
 
-        BigDecimal valorTotal = produto.getPreco()
-                .multiply(BigDecimal.valueOf(pedido.getQuantidade()));
+        Map<String, BigDecimal> mapSkuProdutoPorPreco = produtosCompletos.stream()
+                .collect(Collectors.toMap(Produto::getSku, Produto::getPreco));
+
+        estoqueGateway.baixaEstoque(mapIdProdutoPorQuantidade);
+
+        BigDecimal valorTotal = BigDecimal.ZERO;
+
+        pedido.getProdutos().forEach(p -> {
+            BigDecimal valorUnitario = mapSkuProdutoPorPreco.get(p.getSku());
+            BigDecimal valorDoProduto = valorUnitario.multiply(BigDecimal.valueOf(p.getQuantidade()));
+            valorTotal.add(valorDoProduto);
+        });
 
         pagamentoGateway.solicitaPagamento(valorTotal,
-                Objects.nonNull(pedido.getCartaoCredito()) ? pedido.getCartaoCredito(): pedido.getPix(),
+                pedido.getPagamento(),
                 cliente.getNome(),
                 cliente.getCpf(),
                 cliente.getEndereco());
 
         pedidoGateway.salvaPedido(pedido);
-
-
-
 
     }
 }
