@@ -1,7 +1,9 @@
 package com.fiap_pedido_service.core.gateway;
 
-import java.util.Map;
+import com.fiap_pedido_service.domain.Estoque;
+
+import java.util.List;
 
 public interface EstoqueGateway {
-    void baixaEstoque(Map<String, Integer> mapSkuProdutoPorQuantidade);
+    void baixaEstoque(List<Estoque> estoques);
 }

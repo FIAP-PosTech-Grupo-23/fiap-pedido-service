@@ -2,6 +2,7 @@ package com.fiap_pedido_service.core.usecase;
 
 import com.fiap_pedido_service.core.gateway.*;
 import com.fiap_pedido_service.domain.Cliente;
+import com.fiap_pedido_service.domain.Estoque;
 import com.fiap_pedido_service.domain.Produto;
 import com.fiap_pedido_service.domain.pedido.Pedido;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,27 +28,25 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
     @Override
     public void processaPedido(Pedido pedido) {
 
-        List<String> skus = pedido.getProdutos().stream().map(Produto::getSku).toList();
+        List<Produto> produtosRequest = pedido.getProdutos();
 
-        List<Produto> produtosCompletos = produtoGateway.obtemDadosProdutos(skus);
+        Map<String, Integer> mapSkuProdutoPorQuantidade = produtosRequest.stream()
+                .collect(Collectors.toMap(Produto::getSku, Produto::getQuantidade));
+
+        List<String> skus = produtosRequest.stream().map(Produto::getSku).toList();
+
+        List<Produto> produtosBanco = produtoGateway.obtemDadosProdutos(skus);
 
         Cliente cliente = clienteGateway.obtemDadosCliente(pedido.getIdCliente());
 
-        Map<String, Integer> mapSkuProdutoPorQuantidade = pedido.getProdutos().stream()
-                .collect(Collectors.toMap(Produto::getSku, Produto::getQuantidade));
-
-        Map<String, BigDecimal> mapSkuProdutoPorPreco = produtosCompletos.stream()
+        Map<String, BigDecimal> mapSkuProdutoPorPreco = produtosBanco.stream()
                 .collect(Collectors.toMap(Produto::getSku, Produto::getPreco));
 
-        estoqueGateway.baixaEstoque(mapSkuProdutoPorQuantidade);
+        List<Estoque> inputEstoques = montaRequestEstoques(mapSkuProdutoPorQuantidade, produtosBanco);
 
-        BigDecimal valorTotal = pedido.getProdutos().stream()
-                .map(p -> {
-                    BigDecimal valorUnitario = mapSkuProdutoPorPreco.get(p.getSku());
-                    BigDecimal valorDoProduto = valorUnitario.multiply(BigDecimal.valueOf(p.getQuantidade()));
-                    return valorDoProduto;
-                })
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        estoqueGateway.baixaEstoque(inputEstoques);
+
+        BigDecimal valorTotal = calculaValorTotal(produtosRequest, mapSkuProdutoPorPreco);
 
         pagamentoGateway.solicitaPagamento(valorTotal,
                 pedido.getPagamento(),
@@ -56,5 +56,30 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
 
         pedidoGateway.salvaPedido(pedido);
 
+    }
+
+    private List<Estoque> montaRequestEstoques(Map<String, Integer> mapSkuProdutoPorQuantidade, List<Produto> produtosBanco) {
+        List<Estoque> estoques = new ArrayList<>();
+
+        produtosBanco.forEach(p -> {
+            Estoque estoque = new Estoque(p.getId(), mapSkuProdutoPorQuantidade.get(p.getSku()));
+            estoques.add(estoque);
+        });
+
+        return estoques;
+
+    }
+
+    private static BigDecimal calculaValorTotal(List<Produto> produtosRequest, Map<String, BigDecimal> mapSkuProdutoPorPreco) {
+        return produtosRequest.stream()
+                .map(p ->
+                        multiplicaValorUnitarioPorQuantidade(p, mapSkuProdutoPorPreco)
+                )
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private static BigDecimal multiplicaValorUnitarioPorQuantidade(Produto p, Map<String, BigDecimal> mapSkuProdutoPorPreco) {
+        return mapSkuProdutoPorPreco.get(p.getSku())
+                .multiply(BigDecimal.valueOf(p.getQuantidade()));
     }
 }
