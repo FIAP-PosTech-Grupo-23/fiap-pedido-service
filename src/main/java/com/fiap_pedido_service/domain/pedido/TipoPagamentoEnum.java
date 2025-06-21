@@ -1,7 +1,7 @@
 package com.fiap_pedido_service.domain.pedido;
 
 public enum TipoPagamentoEnum {
-    CARTA_CREDITO,
+    CARTAO_CREDITO,
     PIX
 
 }

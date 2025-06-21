@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CartaoCreditoDTO extends PagamentoDTO {
-    private String numeroCartao;
-    private String cvv;
-    private String dataVencimento;
+public class ProdutoDTO {
+    private String sku;
+    private int quantidade;
 }

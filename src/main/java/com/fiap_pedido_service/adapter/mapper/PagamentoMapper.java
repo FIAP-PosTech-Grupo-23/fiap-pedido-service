@@ -8,15 +8,13 @@ import com.fiap_pedido_service.domain.pedido.Pagamento;
 import com.fiap_pedido_service.domain.pedido.Pix;
 import com.fiap_pedido_service.domain.pedido.TipoPagamentoEnum;
 
-import java.util.List;
-
 public class PagamentoMapper {
 
     public static Pagamento toDomain(PagamentoDTO dto) {
         if (dto instanceof CartaoCreditoDTO) {
             CartaoCreditoDTO ccDto = (CartaoCreditoDTO) dto;
             return new CartaoCredito(
-                    TipoPagamentoEnum.CARTA_CREDITO,
+                    TipoPagamentoEnum.CARTAO_CREDITO,
                     ccDto.getNumeroCartao(),
                     ccDto.getCvv(),
                     ccDto.getDataVencimento()
@@ -30,9 +28,4 @@ public class PagamentoMapper {
         throw new IllegalArgumentException("Tipo de pagamento não suportado: " + dto.getClass());
     }
 
-    public static List<Pagamento> toDomainList(List<PagamentoDTO> dtos) {
-        return dtos.stream()
-                .map(PagamentoMapper::toDomain)
-                .toList();
-    }
 }

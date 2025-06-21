@@ -7,17 +7,20 @@ import com.fiap_pedido_service.domain.Produto;
 import com.fiap_pedido_service.domain.StatusEnum;
 import com.fiap_pedido_service.domain.pedido.Pedido;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class PedidoListener {
 
     private final ProcessaPedidoUseCase processaPedidoUseCase;
 
     @RabbitListener(queues = RabbitMQConfig.PEDIDO_QUEUE)
-    public void receivePedido(PedidoDTO pedido) {
+    public void processaPedido(PedidoDTO pedido) {
+        log.info("Recebendo mensagem: {}", pedido);
 
         processaPedidoUseCase.processaPedido(mapCriaPedido(pedido));
 
@@ -26,11 +29,11 @@ public class PedidoListener {
     private Pedido mapCriaPedido(PedidoDTO peditoDto) {
 
         return new Pedido(peditoDto.getIdCliente(),
-                peditoDto.getProdutosJson().stream()
+                peditoDto.getProdutos().stream()
                         .map(p ->
                                 new Produto(p.getSku(), p.getQuantidade())
                         ).toList(),
-                PagamentoMapper.toDomain(peditoDto.getPagamentoDTO()),
+                PagamentoMapper.toDomain(peditoDto.getPagamento()),
                 StatusEnum.ABERTO);
 
 

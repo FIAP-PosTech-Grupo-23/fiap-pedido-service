@@ -2,23 +2,30 @@ package com.fiap_pedido_service.domain;
 
 public class Cliente {
     private Long id;
-    private Long nome;
-    private Long cpf;
-    private Long endereco;
+    private String nome;
+    private String cpf;
+    private String endereco;
+
+    public Cliente(Long id, String nome, String cpf, String endereco) {
+        this.id = id;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.endereco = endereco;
+    }
 
     public Long getId() {
         return id;
     }
 
-    public Long getNome() {
+    public String getNome() {
         return nome;
     }
 
-    public Long getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public Long getEndereco() {
+    public String getEndereco() {
         return endereco;
     }
 }

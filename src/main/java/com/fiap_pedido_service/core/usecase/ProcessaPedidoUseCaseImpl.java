@@ -2,20 +2,20 @@ package com.fiap_pedido_service.core.usecase;
 
 import com.fiap_pedido_service.core.gateway.*;
 import com.fiap_pedido_service.domain.Cliente;
-import com.fiap_pedido_service.domain.pedido.Pedido;
 import com.fiap_pedido_service.domain.Produto;
+import com.fiap_pedido_service.domain.pedido.Pedido;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase{
+public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
 
     private final PedidoGateway pedidoGateway;
     private final ProdutoGateway produtoGateway;
@@ -32,21 +32,21 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase{
 
         Cliente cliente = clienteGateway.obtemDadosCliente(pedido.getIdCliente());
 
-        Map<Long, Integer> mapIdProdutoPorQuantidade = produtosCompletos.stream()
-                .collect(Collectors.toMap(Produto::getId, Produto::getQuantidade));
+        Map<String, Integer> mapSkuProdutoPorQuantidade = pedido.getProdutos().stream()
+                .collect(Collectors.toMap(Produto::getSku, Produto::getQuantidade));
 
         Map<String, BigDecimal> mapSkuProdutoPorPreco = produtosCompletos.stream()
                 .collect(Collectors.toMap(Produto::getSku, Produto::getPreco));
 
-        estoqueGateway.baixaEstoque(mapIdProdutoPorQuantidade);
+        estoqueGateway.baixaEstoque(mapSkuProdutoPorQuantidade);
 
-        BigDecimal valorTotal = BigDecimal.ZERO;
-
-        pedido.getProdutos().forEach(p -> {
-            BigDecimal valorUnitario = mapSkuProdutoPorPreco.get(p.getSku());
-            BigDecimal valorDoProduto = valorUnitario.multiply(BigDecimal.valueOf(p.getQuantidade()));
-            valorTotal.add(valorDoProduto);
-        });
+        BigDecimal valorTotal = pedido.getProdutos().stream()
+                .map(p -> {
+                    BigDecimal valorUnitario = mapSkuProdutoPorPreco.get(p.getSku());
+                    BigDecimal valorDoProduto = valorUnitario.multiply(BigDecimal.valueOf(p.getQuantidade()));
+                    return valorDoProduto;
+                })
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         pagamentoGateway.solicitaPagamento(valorTotal,
                 pedido.getPagamento(),

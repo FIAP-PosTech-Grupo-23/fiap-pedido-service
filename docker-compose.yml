@@ -8,12 +8,15 @@ services:
     depends_on:
       postgresql:
         condition: service_healthy
+      rabbitmq: # Adicionado: app depende do rabbitmq
+        condition: service_healthy # Adicionado: app espera o rabbitmq estar saudável
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/pedido
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
     networks:
       - springboot-postgres-network
+      - springboot-rabbitmq-network # Adicionado: app também na rede do rabbitmq
   postgresql:
     image: postgres:15-alpine
     ports:
@@ -27,7 +30,7 @@ services:
     networks:
       - springboot-postgres-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
+      test: ["CMD-SHELL", "pg_isready -U postgres"] # Melhorado: especificado o usuário para pg_isready
       retries: 10
       interval: 10s
       timeout: 5s
@@ -46,7 +49,7 @@ services:
     networks:
       - springboot-rabbitmq-network
     healthcheck:
-      test: rabbitmq-diagnostics -q ping
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"] # Correção: formato CMD para healthcheck
       interval: 30s
       timeout: 30s
       retries: 3
