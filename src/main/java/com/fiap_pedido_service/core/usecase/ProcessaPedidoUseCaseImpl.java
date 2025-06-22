@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
 
     private final PedidoGateway pedidoGateway;
@@ -27,11 +28,13 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
 
     @Override
     public void processaPedido(Pedido pedido) {
-
+        log.info("Entrou processa pedido");
         List<Produto> produtosRequest = pedido.getProdutos();
 
         Map<String, Integer> mapSkuProdutoPorQuantidade = produtosRequest.stream()
                 .collect(Collectors.toMap(Produto::getSku, Produto::getQuantidade));
+
+        log.info("map {}", mapSkuProdutoPorQuantidade);
 
         List<String> skus = produtosRequest.stream().map(Produto::getSku).toList();
 

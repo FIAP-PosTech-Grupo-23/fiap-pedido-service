@@ -1,7 +1,11 @@
 package com.fiap_pedido_service.adapter.gateway;
 
+import com.fiap_pedido_service.adapter.client.ProdutoClient;
+import com.fiap_pedido_service.adapter.json.ProdutoDTO;
 import com.fiap_pedido_service.core.gateway.ProdutoGateway;
 import com.fiap_pedido_service.domain.Produto;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -9,20 +13,26 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class ProdutoGatewayImpl implements ProdutoGateway {
+
+    private final ProdutoClient client;
+
     @Override
-    public List<Produto> obtemDadosProdutos(List<String> sku) {
+    public List<Produto> obtemDadosProdutos(List<String> skus) {
 
-        Produto produto = new Produto(
-                1L,
-                "123",
-                "Calça Jeans",
-                "Calça jeans azul com cintura alta",
-                BigDecimal.valueOf(200),
-                LocalDateTime.now(),
-                LocalDateTime.now()
-        );
+        log.info("INICIANDO RECUPERACAO PRODUTOS");
 
-        return List.of(produto);
+        try{
+
+            List<ProdutoDTO> produtosPorSkus = client.getProdutosPorSkus(skus);
+            log.info("Produtos Recuperados: {}", produtosPorSkus);
+        }catch (Exception e){
+            log.error("ERRO AO CHAMAR PRODUTO CLIENTE: {}", e.getMessage());
+        }
+
+
+        return List.of();
     }
 }
