@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(value = "produto-client", url = "http://localhost:8082/produtos/listar")
+@FeignClient(value = "produto-client", url = "http://produto:8082/produtos/listar")
 public interface ProdutoClient {
 
     @PostMapping

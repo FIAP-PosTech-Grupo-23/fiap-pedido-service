@@ -52,11 +52,15 @@ services:
       test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"] # Correção: formato CMD para healthcheck
       interval: 30s
       timeout: 30s
-      retries: 3g
+      retries: 3
 volumes:
   postgres-data:
   rabbitmq-lib:
   rabbitmq-log:
 networks:
   springboot-postgres-network:
+    external: true
+    name: fiap-network
   springboot-rabbitmq-network:
+    external: true
+    name: fiap-rabbitmq-network
