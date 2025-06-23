@@ -11,8 +11,10 @@ import java.math.BigDecimal;
 @Slf4j
 public class PagamentoGatewayImpl implements PagamentoGateway {
     @Override
-    public void solicitaPagamento(BigDecimal valorTotal, Pagamento pagamento, String nome, String cpf, String endereco) {
+    public Long solicitaPagamento(BigDecimal valorTotal, Pagamento pagamento, String nome, String cpf, String endereco) {
 
         log.info("VALOR TOTAL {}", valorTotal);
+
+        return 1L;
     }
 }

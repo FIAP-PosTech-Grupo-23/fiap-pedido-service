@@ -4,6 +4,7 @@ import com.fiap_pedido_service.core.gateway.*;
 import com.fiap_pedido_service.domain.Cliente;
 import com.fiap_pedido_service.domain.Estoque;
 import com.fiap_pedido_service.domain.Produto;
+import com.fiap_pedido_service.domain.pedido.Pagamento;
 import com.fiap_pedido_service.domain.pedido.Pedido;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -47,13 +48,19 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
 
         BigDecimal valorTotal = calculaValorTotal(produtosRequest, mapSkuProdutoPorPreco);
 
-        pagamentoGateway.solicitaPagamento(valorTotal,
+        Long idPagamento = pagamentoGateway.solicitaPagamento(valorTotal,
                 pedido.getPagamento(),
                 cliente.getNome(),
                 cliente.getCpf(),
                 cliente.getEndereco());
 
-        pedidoGateway.salvaPedido(pedido);
+        Pedido pedidoCompleto = new Pedido(
+                pedido.getIdCliente(),
+                pedido.getProdutos(),
+                new Pagamento(idPagamento),
+                pedido.getStatusEnum());
+
+        pedidoGateway.salvaPedido(pedidoCompleto);
 
     }
 

@@ -32,4 +32,8 @@ public class Pedido {
     public Pagamento getPagamento() {
         return pagamento;
     }
+
+    public StatusEnum getStatusEnum() {
+        return statusEnum;
+    }
 }

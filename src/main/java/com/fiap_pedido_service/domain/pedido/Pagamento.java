@@ -12,4 +12,12 @@ public class Pagamento {
         this.cvv = cvv;
         this.dataVencimento = dataVencimento;
     }
+
+    public Pagamento(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
 }
