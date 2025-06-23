@@ -6,7 +6,6 @@ import com.fiap_pedido_service.domain.Estoque;
 import com.fiap_pedido_service.domain.Produto;
 import com.fiap_pedido_service.domain.pedido.Pedido;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -17,7 +16,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
 
     private final PedidoGateway pedidoGateway;
@@ -28,13 +26,11 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
 
     @Override
     public void processaPedido(Pedido pedido) {
-        log.info("Entrou processa pedido");
+
         List<Produto> produtosRequest = pedido.getProdutos();
 
-        Map<String, Integer> mapSkuProdutoPorQuantidade = produtosRequest.stream()
+        Map<String, Integer> mapSkuProdutoRequestPorQuantidade = produtosRequest.stream()
                 .collect(Collectors.toMap(Produto::getSku, Produto::getQuantidade));
-
-        log.info("map {}", mapSkuProdutoPorQuantidade);
 
         List<String> skus = produtosRequest.stream().map(Produto::getSku).toList();
 
@@ -45,7 +41,7 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
         Map<String, BigDecimal> mapSkuProdutoPorPreco = produtosBanco.stream()
                 .collect(Collectors.toMap(Produto::getSku, Produto::getPreco));
 
-        List<Estoque> inputEstoques = montaRequestEstoques(mapSkuProdutoPorQuantidade, produtosBanco);
+        List<Estoque> inputEstoques = montaEstoques(mapSkuProdutoRequestPorQuantidade, produtosBanco);
 
         estoqueGateway.baixaEstoque(inputEstoques);
 
@@ -61,11 +57,11 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
 
     }
 
-    private List<Estoque> montaRequestEstoques(Map<String, Integer> mapSkuProdutoPorQuantidade, List<Produto> produtosBanco) {
+    private List<Estoque> montaEstoques(Map<String, Integer> mapSkuProdutoRequestPorQuantidade, List<Produto> produtosBanco) {
         List<Estoque> estoques = new ArrayList<>();
 
         produtosBanco.forEach(p -> {
-            Estoque estoque = new Estoque(p.getId(), mapSkuProdutoPorQuantidade.get(p.getSku()));
+            Estoque estoque = new Estoque(p.getId(), mapSkuProdutoRequestPorQuantidade.get(p.getSku()));
             estoques.add(estoque);
         });
 

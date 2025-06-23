@@ -23,16 +23,24 @@ public class ProdutoGatewayImpl implements ProdutoGateway {
     public List<Produto> obtemDadosProdutos(List<String> skus) {
 
         log.info("INICIANDO RECUPERACAO PRODUTOS");
-
+        List<ProdutoDTO> produtosPorSkus = List.of();
         try{
-
-            List<ProdutoDTO> produtosPorSkus = client.getProdutosPorSkus(skus);
+            produtosPorSkus = client.getProdutosPorSkus(skus);
             log.info("Produtos Recuperados: {}", produtosPorSkus);
         }catch (Exception e){
             log.error("ERRO AO CHAMAR PRODUTO CLIENTE: {}", e.getMessage());
         }
 
-
-        return List.of();
+        return produtosPorSkus.stream().map(p ->
+                new Produto(
+                        p.getId(),
+                        p.getSku(),
+                        p.getNome(),
+                        p.getDescricao(),
+                        p.getPreco(),
+                        p.getCriadoEm(),
+                        p.getAtualizadoEm()
+                )
+        ).toList();
     }
 }

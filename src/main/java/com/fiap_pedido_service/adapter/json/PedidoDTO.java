@@ -5,12 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class PedidoDTO {
-    private Long idCliente;
+    private UUID idCliente;
     private List<ProdutoDTO> produtos;
     private PagamentoDTO pagamento;
 

@@ -1,10 +1,10 @@
 package com.fiap_pedido_service.adapter;
 
 import com.fiap_pedido_service.adapter.json.PedidoDTO;
-import com.fiap_pedido_service.adapter.mapper.PagamentoMapper;
 import com.fiap_pedido_service.core.usecase.ProcessaPedidoUseCase;
 import com.fiap_pedido_service.domain.Produto;
 import com.fiap_pedido_service.domain.StatusEnum;
+import com.fiap_pedido_service.domain.pedido.Pagamento;
 import com.fiap_pedido_service.domain.pedido.Pedido;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ public class PedidoListener {
                         .map(p ->
                                 new Produto(p.getSku(), p.getQuantidade())
                         ).toList(),
-                PagamentoMapper.toDomain(peditoDto.getPagamento()),
+                new Pagamento(peditoDto.getPagamento().getNumeroCartao(), peditoDto.getPagamento().getCvv(), peditoDto.getPagamento().getDataVencimento()),
                 StatusEnum.ABERTO);
 
 
