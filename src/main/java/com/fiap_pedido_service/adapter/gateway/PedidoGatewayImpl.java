@@ -1,7 +1,7 @@
 package com.fiap_pedido_service.adapter.gateway;
 
 import com.fiap_pedido_service.adapter.entity.PedidoEntity;
-import com.fiap_pedido_service.adapter.entity.ProdutoPedidoEntity;
+import com.fiap_pedido_service.adapter.entity.PedidoProdutoEntity;
 import com.fiap_pedido_service.adapter.repository.PedidoRepository;
 import com.fiap_pedido_service.core.gateway.PedidoGateway;
 import com.fiap_pedido_service.domain.pedido.Pedido;
@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -25,14 +26,15 @@ public class PedidoGatewayImpl implements PedidoGateway {
     public void salvaPedido(Pedido pedido) {
 
         PedidoEntity pedidoEntity = new PedidoEntity(pedido.getIdCliente(),
-                pedido.getPagamento().getId(),
+                Objects.nonNull(pedido.getPagamento()) ? pedido.getPagamento().getId() : null,
                 pedido.getStatusEnum(),
                 LocalDateTime.now(),
-                LocalDateTime.now()
+                LocalDateTime.now(),
+                pedido.getValorTotal()
         );
 
-        List<ProdutoPedidoEntity> produtosEntity = pedido.getProdutos().stream().map(p ->
-                new ProdutoPedidoEntity(pedidoEntity, p.getSku(), p.getQuantidade())
+        List<PedidoProdutoEntity> produtosEntity = pedido.getProdutos().stream().map(p ->
+                new PedidoProdutoEntity(pedidoEntity, p.getSku(), p.getQuantidade())
         ).toList();
 
         pedidoEntity.setProdutos(produtosEntity);

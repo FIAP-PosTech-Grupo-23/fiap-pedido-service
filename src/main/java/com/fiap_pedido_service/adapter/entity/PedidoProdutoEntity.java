@@ -6,11 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "produto_pedido")
+@Table(name = "pedido_produto")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProdutoPedidoEntity {
+public class PedidoProdutoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,7 @@ public class ProdutoPedidoEntity {
 
     private Integer quantidade;
 
-    public ProdutoPedidoEntity(PedidoEntity pedido, String skuProduto, Integer quantidade) {
+    public PedidoProdutoEntity(PedidoEntity pedido, String skuProduto, Integer quantidade) {
         this.pedido = pedido;
         this.skuProduto = skuProduto;
         this.quantidade = quantidade;

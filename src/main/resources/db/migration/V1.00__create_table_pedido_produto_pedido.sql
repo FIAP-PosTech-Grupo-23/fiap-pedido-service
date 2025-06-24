@@ -4,11 +4,12 @@ CREATE TABLE pedido (
     status VARCHAR(30) NOT NULL,
     id_pagamento BIGINT,
     criado_em TIMESTAMP NOT NULL DEFAULT NOW(),
-    atualizado_em TIMESTAMP NOT NULL DEFAULT NOW()
+    atualizado_em TIMESTAMP NOT NULL DEFAULT NOW(),
+    valor_total NUMERIC(10,2) NOT NULL
 );
 
 
-CREATE TABLE produto_pedido (
+CREATE TABLE pedido_produto (
     id SERIAL PRIMARY KEY,
     pedido_id INTEGER NOT NULL REFERENCES pedido(id) ON DELETE CASCADE,
     sku_produto VARCHAR(100) NOT NULL,
@@ -17,7 +18,7 @@ CREATE TABLE produto_pedido (
 
 
 CREATE INDEX idx_pedido_id_cliente ON pedido(id_cliente);
-CREATE INDEX idx_produto_pedido_pedido_id ON produto_pedido(pedido_id);
-CREATE INDEX idx_produto_pedido_sku_produto ON produto_pedido(sku_produto);
+CREATE INDEX idx_pedido_produto_id ON pedido_produto(pedido_id);
+CREATE INDEX idx_pedido_sku_produto ON pedido_produto(sku_produto);
 
 

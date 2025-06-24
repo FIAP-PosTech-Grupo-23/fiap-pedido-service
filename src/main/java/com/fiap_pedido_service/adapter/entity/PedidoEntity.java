@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -25,7 +26,7 @@ public class PedidoEntity {
     private UUID idCliente;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProdutoPedidoEntity> produtos;
+    private List<PedidoProdutoEntity> produtos;
 
     private Long idPagamento;
 
@@ -36,11 +37,14 @@ public class PedidoEntity {
 
     private LocalDateTime atualizadoEm;
 
-    public PedidoEntity(UUID idCliente, Long idPagamento, StatusEnum status, LocalDateTime criadoEm, LocalDateTime atualizadoEm) {
+    private BigDecimal valorTotal;
+
+    public PedidoEntity(UUID idCliente, Long idPagamento, StatusEnum status, LocalDateTime criadoEm, LocalDateTime atualizadoEm, BigDecimal valorTotal) {
         this.idCliente = idCliente;
         this.idPagamento = idPagamento;
         this.status = status;
         this.criadoEm = criadoEm;
         this.atualizadoEm = atualizadoEm;
+        this.valorTotal = valorTotal;
     }
 }

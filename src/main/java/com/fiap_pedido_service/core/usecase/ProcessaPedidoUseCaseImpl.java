@@ -1,9 +1,7 @@
 package com.fiap_pedido_service.core.usecase;
 
 import com.fiap_pedido_service.core.gateway.*;
-import com.fiap_pedido_service.domain.Cliente;
-import com.fiap_pedido_service.domain.Estoque;
-import com.fiap_pedido_service.domain.Produto;
+import com.fiap_pedido_service.domain.*;
 import com.fiap_pedido_service.domain.pedido.Pagamento;
 import com.fiap_pedido_service.domain.pedido.Pedido;
 import lombok.RequiredArgsConstructor;
@@ -44,9 +42,23 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
 
         List<Estoque> inputEstoques = montaEstoques(mapSkuProdutoRequestPorQuantidade, produtosBanco);
 
-        estoqueGateway.baixaEstoque(inputEstoques);
+        List<Estoque> estoques = estoqueGateway.baixaEstoque(inputEstoques);
+
+        boolean algumIndisponivel = estoques.stream()
+                .anyMatch(e -> e.getEstoqueEnum() == EstoqueEnum.INDISPONIVEL);
 
         BigDecimal valorTotal = calculaValorTotal(produtosRequest, mapSkuProdutoPorPreco);
+
+        if(algumIndisponivel) {
+            Pedido pedidoCompleto = new Pedido(
+                    pedido.getIdCliente(),
+                    pedido.getProdutos(),
+                    StatusEnum.FECHADO_SEM_ESTOQUE,
+                    valorTotal);
+            pedidoGateway.salvaPedido(pedidoCompleto);
+            return;
+        }
+
 
         Long idPagamento = pagamentoGateway.solicitaPagamento(valorTotal,
                 pedido.getPagamento(),
@@ -58,7 +70,8 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
                 pedido.getIdCliente(),
                 pedido.getProdutos(),
                 new Pagamento(idPagamento),
-                pedido.getStatusEnum());
+                pedido.getStatusEnum(),
+                valorTotal);
 
         pedidoGateway.salvaPedido(pedidoCompleto);
 

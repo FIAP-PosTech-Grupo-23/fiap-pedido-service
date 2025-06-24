@@ -3,6 +3,7 @@ package com.fiap_pedido_service.domain.pedido;
 import com.fiap_pedido_service.domain.Produto;
 import com.fiap_pedido_service.domain.StatusEnum;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,12 +14,28 @@ public class Pedido {
     private List<Produto> produtos;
     private Pagamento pagamento;
     private StatusEnum statusEnum;
+    private BigDecimal valorTotal;
 
     public Pedido(UUID idCliente, List<Produto> produtos, Pagamento pagamento, StatusEnum statusEnum) {
         this.idCliente = idCliente;
         this.produtos = produtos;
         this.pagamento = pagamento;
         this.statusEnum = statusEnum;
+    }
+
+    public Pedido(UUID idCliente, List<Produto> produtos, Pagamento pagamento, StatusEnum statusEnum, BigDecimal valorTotal) {
+        this.idCliente = idCliente;
+        this.produtos = produtos;
+        this.pagamento = pagamento;
+        this.statusEnum = statusEnum;
+        this.valorTotal = valorTotal;
+    }
+
+    public Pedido(UUID idCliente, List<Produto> produtos, StatusEnum statusEnum, BigDecimal valorTotal) {
+        this.idCliente = idCliente;
+        this.produtos = produtos;
+        this.statusEnum = statusEnum;
+        this.valorTotal = valorTotal;
     }
 
     public UUID getIdCliente() {
@@ -35,5 +52,9 @@ public class Pedido {
 
     public StatusEnum getStatusEnum() {
         return statusEnum;
+    }
+
+    public BigDecimal getValorTotal() {
+        return valorTotal;
     }
 }
