@@ -1,4 +1,4 @@
-package com.fiap_pedido_service.domain;
+package com.fiap_pedido_service.core.domain;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

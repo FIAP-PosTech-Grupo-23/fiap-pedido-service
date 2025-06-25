@@ -1,8 +1,8 @@
 package com.fiap_pedido_service.adapter.gateway;
 
 import com.fiap_pedido_service.core.gateway.EstoqueGateway;
-import com.fiap_pedido_service.domain.Estoque;
-import com.fiap_pedido_service.domain.EstoqueEnum;
+import com.fiap_pedido_service.core.domain.Estoque;
+import com.fiap_pedido_service.core.domain.EstoqueEnum;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

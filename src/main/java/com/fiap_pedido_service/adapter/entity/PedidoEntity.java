@@ -1,6 +1,6 @@
 package com.fiap_pedido_service.adapter.entity;
 
-import com.fiap_pedido_service.domain.StatusEnum;
+import com.fiap_pedido_service.core.domain.StatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,7 +26,7 @@ public class PedidoEntity {
     private UUID idCliente;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PedidoProdutoEntity> produtos;
+    private List<PedidoProdutoEntity> pedidosProdutos;
 
     private Long idPagamento;
 

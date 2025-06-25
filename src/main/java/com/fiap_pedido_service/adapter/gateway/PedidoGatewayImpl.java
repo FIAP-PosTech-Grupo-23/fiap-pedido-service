@@ -3,8 +3,11 @@ package com.fiap_pedido_service.adapter.gateway;
 import com.fiap_pedido_service.adapter.entity.PedidoEntity;
 import com.fiap_pedido_service.adapter.entity.PedidoProdutoEntity;
 import com.fiap_pedido_service.adapter.repository.PedidoRepository;
+import com.fiap_pedido_service.core.domain.Produto;
+import com.fiap_pedido_service.core.domain.StatusEnum;
+import com.fiap_pedido_service.core.domain.pedido.Pagamento;
+import com.fiap_pedido_service.core.domain.pedido.Pedido;
 import com.fiap_pedido_service.core.gateway.PedidoGateway;
-import com.fiap_pedido_service.domain.pedido.Pedido;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -37,11 +40,45 @@ public class PedidoGatewayImpl implements PedidoGateway {
                 new PedidoProdutoEntity(pedidoEntity, p.getSku(), p.getQuantidade())
         ).toList();
 
-        pedidoEntity.setProdutos(produtosEntity);
+        pedidoEntity.setPedidosProdutos(produtosEntity);
 
         log.info("SALVANDO PEDIDO");
 
         pedidoRepository.save(pedidoEntity);
+
+    }
+
+    @Override
+    public Pedido recuperaPedidoPorIdPagamento(Long idPagamento) {
+
+        PedidoEntity pedidoEntity = pedidoRepository.findByIdPagamento(idPagamento);
+
+        List<PedidoProdutoEntity> pedidosProdutos = pedidoEntity.getPedidosProdutos();
+
+        List<Produto> produtos = pedidosProdutos.stream().map(p ->
+                new Produto(
+                        p.getSkuProduto(),
+                        p.getQuantidade()
+                )
+        ).toList();
+
+        return new Pedido(
+                pedidoEntity.getId(),
+                pedidoEntity.getIdCliente(),
+                produtos,
+                new Pagamento(pedidoEntity.getIdPagamento()),
+                pedidoEntity.getStatus(),
+                pedidoEntity.getValorTotal()
+
+        );
+
+    }
+
+    @Override
+    @Transactional
+    public void atualizaStatus(Long idPagamento, StatusEnum status) {
+
+        pedidoRepository.updateStatusAndAtualizadoEmByIdPagamento(status, LocalDateTime.now(), idPagamento);
 
     }
 }

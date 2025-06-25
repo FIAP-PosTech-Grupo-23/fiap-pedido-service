@@ -1,9 +1,9 @@
 package com.fiap_pedido_service.core.usecase;
 
+import com.fiap_pedido_service.core.domain.*;
 import com.fiap_pedido_service.core.gateway.*;
-import com.fiap_pedido_service.domain.*;
-import com.fiap_pedido_service.domain.pedido.Pagamento;
-import com.fiap_pedido_service.domain.pedido.Pedido;
+import com.fiap_pedido_service.core.domain.pedido.Pagamento;
+import com.fiap_pedido_service.core.domain.pedido.Pedido;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,25 +40,14 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
         Map<String, BigDecimal> mapSkuProdutoPorPreco = produtosBanco.stream()
                 .collect(Collectors.toMap(Produto::getSku, Produto::getPreco));
 
-        List<Estoque> inputEstoques = montaEstoques(mapSkuProdutoRequestPorQuantidade, produtosBanco);
-
-        List<Estoque> estoques = estoqueGateway.baixaEstoque(inputEstoques);
-
-        boolean algumIndisponivel = estoques.stream()
-                .anyMatch(e -> e.getEstoqueEnum() == EstoqueEnum.INDISPONIVEL);
+        List<Estoque> estoques = processaBaixaEstoque(mapSkuProdutoRequestPorQuantidade, produtosBanco);
 
         BigDecimal valorTotal = calculaValorTotal(produtosRequest, mapSkuProdutoPorPreco);
 
-        if(algumIndisponivel) {
-            Pedido pedidoCompleto = new Pedido(
-                    pedido.getIdCliente(),
-                    pedido.getProdutos(),
-                    StatusEnum.FECHADO_SEM_ESTOQUE,
-                    valorTotal);
-            pedidoGateway.salvaPedido(pedidoCompleto);
+        if (estoqueIndisponivel(estoques)) {
+            salvaPedidoSemPagamento(pedido, valorTotal);
             return;
         }
-
 
         Long idPagamento = pagamentoGateway.solicitaPagamento(valorTotal,
                 pedido.getPagamento(),
@@ -89,7 +78,7 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
 
     }
 
-    private static BigDecimal calculaValorTotal(List<Produto> produtosRequest, Map<String, BigDecimal> mapSkuProdutoPorPreco) {
+    private BigDecimal calculaValorTotal(List<Produto> produtosRequest, Map<String, BigDecimal> mapSkuProdutoPorPreco) {
         return produtosRequest.stream()
                 .map(p ->
                         multiplicaValorUnitarioPorQuantidade(p, mapSkuProdutoPorPreco)
@@ -100,5 +89,23 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
     private static BigDecimal multiplicaValorUnitarioPorQuantidade(Produto p, Map<String, BigDecimal> mapSkuProdutoPorPreco) {
         return mapSkuProdutoPorPreco.get(p.getSku())
                 .multiply(BigDecimal.valueOf(p.getQuantidade()));
+    }
+
+    private List<Estoque> processaBaixaEstoque(Map<String, Integer> mapSkuProdutoRequestPorQuantidade, List<Produto> produtosBanco) {
+        List<Estoque> inputEstoques = montaEstoques(mapSkuProdutoRequestPorQuantidade, produtosBanco);
+        return estoqueGateway.baixaEstoque(inputEstoques);
+    }
+
+    private boolean estoqueIndisponivel(List<Estoque> estoques) {
+        return estoques.stream().anyMatch(e -> e.getEstoqueEnum() == EstoqueEnum.INDISPONIVEL);
+    }
+
+    private void salvaPedidoSemPagamento(Pedido pedido, BigDecimal valorTotal) {
+        Pedido pedidoSemEstoque = new Pedido(
+                pedido.getIdCliente(),
+                pedido.getProdutos(),
+                StatusEnum.FECHADO_SEM_ESTOQUE,
+                valorTotal);
+        pedidoGateway.salvaPedido(pedidoSemEstoque);
     }
 }

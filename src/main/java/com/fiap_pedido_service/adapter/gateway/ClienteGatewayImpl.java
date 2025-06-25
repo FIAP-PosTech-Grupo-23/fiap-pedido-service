@@ -1,7 +1,7 @@
 package com.fiap_pedido_service.adapter.gateway;
 
 import com.fiap_pedido_service.core.gateway.ClienteGateway;
-import com.fiap_pedido_service.domain.Cliente;
+import com.fiap_pedido_service.core.domain.Cliente;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;

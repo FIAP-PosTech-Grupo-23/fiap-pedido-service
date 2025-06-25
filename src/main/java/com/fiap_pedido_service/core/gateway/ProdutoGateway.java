@@ -1,6 +1,6 @@
 package com.fiap_pedido_service.core.gateway;
 
-import com.fiap_pedido_service.domain.Produto;
+import com.fiap_pedido_service.core.domain.Produto;
 
 import java.util.List;
 

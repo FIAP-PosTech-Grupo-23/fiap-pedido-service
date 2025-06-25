@@ -1,7 +1,7 @@
-package com.fiap_pedido_service.domain.pedido;
+package com.fiap_pedido_service.core.domain.pedido;
 
-import com.fiap_pedido_service.domain.Produto;
-import com.fiap_pedido_service.domain.StatusEnum;
+import com.fiap_pedido_service.core.domain.Produto;
+import com.fiap_pedido_service.core.domain.StatusEnum;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,6 +15,15 @@ public class Pedido {
     private Pagamento pagamento;
     private StatusEnum statusEnum;
     private BigDecimal valorTotal;
+
+    public Pedido(Long id, UUID idCliente, List<Produto> produtos, Pagamento pagamento, StatusEnum statusEnum, BigDecimal valorTotal) {
+        this.id = id;
+        this.idCliente = idCliente;
+        this.produtos = produtos;
+        this.pagamento = pagamento;
+        this.statusEnum = statusEnum;
+        this.valorTotal = valorTotal;
+    }
 
     public Pedido(UUID idCliente, List<Produto> produtos, Pagamento pagamento, StatusEnum statusEnum) {
         this.idCliente = idCliente;

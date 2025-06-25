@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(value = "produto-client", url = "http://produto:8082/produtos/listar")
+@FeignClient(value = "produto-client", url = "${produto.api.url}")
 public interface ProdutoClient {
 
-    @PostMapping
+    @PostMapping("/listar")
     List<ProdutoDTO> getProdutosPorSkus(@RequestBody List<String> skus);
 
 

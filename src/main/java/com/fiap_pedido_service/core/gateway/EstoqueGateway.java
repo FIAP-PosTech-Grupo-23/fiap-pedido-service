@@ -1,6 +1,6 @@
 package com.fiap_pedido_service.core.gateway;
 
-import com.fiap_pedido_service.domain.Estoque;
+import com.fiap_pedido_service.core.domain.Estoque;
 
 import java.util.List;
 

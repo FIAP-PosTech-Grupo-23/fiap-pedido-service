@@ -1,4 +1,4 @@
-package com.fiap_pedido_service.domain;
+package com.fiap_pedido_service.core.domain;
 
 public enum StatusEnum {
     ABERTO,
