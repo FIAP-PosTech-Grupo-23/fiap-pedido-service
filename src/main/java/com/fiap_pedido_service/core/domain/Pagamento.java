@@ -1,4 +1,4 @@
-package com.fiap_pedido_service.core.domain.pedido;
+package com.fiap_pedido_service.core.domain;
 
 public class Pagamento {
 

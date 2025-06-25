@@ -4,18 +4,18 @@ public class PedidoStatusPagamento {
 
     private Long idPagamento;
 
-    private StatusPagamentoEnum statusPagamentoEnum;
+    private StatusPagamentoEnum statusPagamento;
 
-    public PedidoStatusPagamento(Long idPagamento, StatusPagamentoEnum statusPagamentoEnum) {
+    public PedidoStatusPagamento(Long idPagamento, StatusPagamentoEnum statusPagamento) {
         this.idPagamento = idPagamento;
-        this.statusPagamentoEnum = statusPagamentoEnum;
+        this.statusPagamento = statusPagamento;
     }
 
     public Long getIdPagamento() {
         return idPagamento;
     }
 
-    public StatusPagamentoEnum getStatusPagamentoEnum() {
-        return statusPagamentoEnum;
+    public StatusPagamentoEnum getStatusPagamento() {
+        return statusPagamento;
     }
 }

@@ -1,7 +1,7 @@
 package com.fiap_pedido_service.adapter.gateway;
 
 import com.fiap_pedido_service.core.gateway.PagamentoGateway;
-import com.fiap_pedido_service.core.domain.pedido.Pagamento;
+import com.fiap_pedido_service.core.domain.Pagamento;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

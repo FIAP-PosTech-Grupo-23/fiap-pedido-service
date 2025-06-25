@@ -1,7 +1,7 @@
 package com.fiap_pedido_service.core.usecase;
 
 import com.fiap_pedido_service.core.domain.*;
-import com.fiap_pedido_service.core.domain.pedido.Pedido;
+import com.fiap_pedido_service.core.domain.Pedido;
 import com.fiap_pedido_service.core.gateway.EstoqueGateway;
 import com.fiap_pedido_service.core.gateway.PedidoGateway;
 import com.fiap_pedido_service.core.gateway.ProdutoGateway;
@@ -23,7 +23,7 @@ public class AtualizaStatusPedidoUseCaseImpl implements AtualizaStatusPedidoUseC
     @Override
     public void atualizaStatusPedido(PedidoStatusPagamento pedidoStatusPagamento) {
 
-        StatusPagamentoEnum statusPagamentoEnum = pedidoStatusPagamento.getStatusPagamentoEnum();
+        StatusPagamentoEnum statusPagamentoEnum = pedidoStatusPagamento.getStatusPagamento();
         StatusEnum status = statusPagamentoEnum.getStatusInterno();
 
         Pedido pedido = pedidoGateway.recuperaPedidoPorIdPagamento(pedidoStatusPagamento.getIdPagamento());

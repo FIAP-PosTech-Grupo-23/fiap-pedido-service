@@ -1,7 +1,4 @@
-package com.fiap_pedido_service.core.domain.pedido;
-
-import com.fiap_pedido_service.core.domain.Produto;
-import com.fiap_pedido_service.core.domain.StatusEnum;
+package com.fiap_pedido_service.core.domain;
 
 import java.math.BigDecimal;
 import java.util.List;

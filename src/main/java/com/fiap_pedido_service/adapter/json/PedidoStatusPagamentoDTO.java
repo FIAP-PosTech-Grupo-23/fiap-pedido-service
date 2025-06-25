@@ -12,6 +12,6 @@ public class PedidoStatusPagamentoDTO {
 
     private Long idPagamento;
 
-    private StatusPagamentoEnum statusPagamentoEnum;
+    private StatusPagamentoEnum statusPagamento;
 
 }

@@ -24,7 +24,7 @@ public class PedidoController {
     }
 
     private PedidoStatusPagamento criaProdutoDomain(PedidoStatusPagamentoDTO pedidoStatusPagamentoDTO) {
-        return new PedidoStatusPagamento(pedidoStatusPagamentoDTO.getIdPagamento(), pedidoStatusPagamentoDTO.getStatusPagamentoEnum());
+        return new PedidoStatusPagamento(pedidoStatusPagamentoDTO.getIdPagamento(), pedidoStatusPagamentoDTO.getStatusPagamento());
 
     }
 

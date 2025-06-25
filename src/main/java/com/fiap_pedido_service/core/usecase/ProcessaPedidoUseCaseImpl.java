@@ -2,8 +2,8 @@ package com.fiap_pedido_service.core.usecase;
 
 import com.fiap_pedido_service.core.domain.*;
 import com.fiap_pedido_service.core.gateway.*;
-import com.fiap_pedido_service.core.domain.pedido.Pagamento;
-import com.fiap_pedido_service.core.domain.pedido.Pedido;
+import com.fiap_pedido_service.core.domain.Pagamento;
+import com.fiap_pedido_service.core.domain.Pedido;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

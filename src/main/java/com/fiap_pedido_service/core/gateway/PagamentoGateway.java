@@ -1,6 +1,6 @@
 package com.fiap_pedido_service.core.gateway;
 
-import com.fiap_pedido_service.core.domain.pedido.Pagamento;
+import com.fiap_pedido_service.core.domain.Pagamento;
 
 import java.math.BigDecimal;
 
