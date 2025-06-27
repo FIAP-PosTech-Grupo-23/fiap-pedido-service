@@ -21,6 +21,11 @@ public class Produto {
 
     private int quantidade;
 
+    public Produto(Long id, int quantidade) {
+        this.id = id;
+        this.quantidade = quantidade;
+    }
+
     public Produto(String sku, int quantidade) {
         this.sku = sku;
         this.quantidade = quantidade;

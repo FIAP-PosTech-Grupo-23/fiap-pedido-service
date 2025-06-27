@@ -17,16 +17,16 @@ public class PedidoProdutoEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "pedido_id")
+    @JoinColumn(name = "id_pedido")
     private PedidoEntity pedido;
 
-    private String skuProduto;
+    private Long idProduto;
 
     private Integer quantidade;
 
-    public PedidoProdutoEntity(PedidoEntity pedido, String skuProduto, Integer quantidade) {
+    public PedidoProdutoEntity(PedidoEntity pedido, Long idProduto, Integer quantidade) {
         this.pedido = pedido;
-        this.skuProduto = skuProduto;
+        this.idProduto = idProduto;
         this.quantidade = quantidade;
     }
 }

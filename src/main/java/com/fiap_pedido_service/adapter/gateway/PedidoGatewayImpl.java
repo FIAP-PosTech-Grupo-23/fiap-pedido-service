@@ -37,12 +37,10 @@ public class PedidoGatewayImpl implements PedidoGateway {
         );
 
         List<PedidoProdutoEntity> produtosEntity = pedido.getProdutos().stream().map(p ->
-                new PedidoProdutoEntity(pedidoEntity, p.getSku(), p.getQuantidade())
+                new PedidoProdutoEntity(pedidoEntity, p.getId(), p.getQuantidade())
         ).toList();
 
         pedidoEntity.setPedidosProdutos(produtosEntity);
-
-        log.info("SALVANDO PEDIDO");
 
         pedidoRepository.save(pedidoEntity);
 
@@ -57,7 +55,7 @@ public class PedidoGatewayImpl implements PedidoGateway {
 
         List<Produto> produtos = pedidosProdutos.stream().map(p ->
                 new Produto(
-                        p.getSkuProduto(),
+                        p.getId(),
                         p.getQuantidade()
                 )
         ).toList();

@@ -12,7 +12,7 @@ public class EstoqueGatewayImpl implements EstoqueGateway {
     @Override
     public List<Estoque> baixaEstoque(List<Estoque> estoques) {
 
-        Estoque e1 = new Estoque(1L, 1L, 10, EstoqueEnum.INDISPONIVEL);
+        Estoque e1 = new Estoque(1L, 1L, 10, EstoqueEnum.DISPONIVEL);
 
         return List.of(e1);
 

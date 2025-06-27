@@ -11,14 +11,14 @@ CREATE TABLE pedido (
 
 CREATE TABLE pedido_produto (
     id SERIAL PRIMARY KEY,
-    pedido_id INTEGER NOT NULL REFERENCES pedido(id) ON DELETE CASCADE,
-    sku_produto VARCHAR(100) NOT NULL,
+    id_pedido INTEGER NOT NULL REFERENCES pedido(id) ON DELETE CASCADE,
+    id_produto INTEGER NOT NULL,
     quantidade INTEGER NOT NULL
 );
 
 
 CREATE INDEX idx_pedido_id_cliente ON pedido(id_cliente);
-CREATE INDEX idx_pedido_produto_id ON pedido_produto(pedido_id);
-CREATE INDEX idx_pedido_sku_produto ON pedido_produto(sku_produto);
+CREATE INDEX idx_pedido_produto_id ON pedido_produto(id_pedido);
+CREATE INDEX idx_pedido_id_produto ON pedido_produto(id_produto);
 
 

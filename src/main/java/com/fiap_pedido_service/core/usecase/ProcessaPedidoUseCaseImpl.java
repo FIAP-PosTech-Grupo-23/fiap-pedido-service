@@ -45,7 +45,7 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
         BigDecimal valorTotal = calculaValorTotal(produtosRequest, mapSkuProdutoPorPreco);
 
         if (estoqueIndisponivel(estoques)) {
-            salvaPedidoSemPagamento(pedido, valorTotal);
+            salvaPedidoSemPagamento(pedido, produtosBanco, valorTotal);
             return;
         }
 
@@ -57,7 +57,7 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
 
         Pedido pedidoCompleto = new Pedido(
                 pedido.getIdCliente(),
-                pedido.getProdutos(),
+                produtosBanco,
                 new Pagamento(idPagamento),
                 pedido.getStatusEnum(),
                 valorTotal);
@@ -100,10 +100,10 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
         return estoques.stream().anyMatch(e -> e.getEstoqueEnum() == EstoqueEnum.INDISPONIVEL);
     }
 
-    private void salvaPedidoSemPagamento(Pedido pedido, BigDecimal valorTotal) {
+    private void salvaPedidoSemPagamento(Pedido pedido,List<Produto> produtosBanco,  BigDecimal valorTotal) {
         Pedido pedidoSemEstoque = new Pedido(
                 pedido.getIdCliente(),
-                pedido.getProdutos(),
+                produtosBanco,
                 StatusEnum.FECHADO_SEM_ESTOQUE,
                 valorTotal);
         pedidoGateway.salvaPedido(pedidoSemEstoque);
