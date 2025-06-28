@@ -33,7 +33,7 @@ jobs:
         run: mkdir staging && cp target/fiap-pedido-service-0.0.1-SNAPSHOT.jar staging
 
       - name: Uploading artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: package
           path: staging
