@@ -1,4 +1,4 @@
-name: Docker Hub CD
+name: Docker Hub CD Process
 
 on:
   push:
