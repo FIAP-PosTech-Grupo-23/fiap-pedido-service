@@ -8,15 +8,18 @@ services:
     depends_on:
       postgresql:
         condition: service_healthy
-      rabbitmq: # Adicionado: app depende do rabbitmq
-        condition: service_healthy # Adicionado: app espera o rabbitmq estar saudável
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/pedido
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_RABBITMQ_HOST=rabbitmq # ou configure no application.properties/yml
+      - SPRING_RABBITMQ_PORT=5672
+      - SPRING_RABBITMQ_USERNAME=fiap
+      - SPRING_RABBITMQ_PASSWORD=fiap
     networks:
       - springboot-postgres-network
-      - springboot-rabbitmq-network # Adicionado: app também na rede do rabbitmq
+      - springboot-rabbitmq-network
+
   postgresql:
     image: postgres:15-alpine
     ports:
@@ -30,33 +33,14 @@ services:
     networks:
       - springboot-postgres-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"] # Melhorado: especificado o usuário para pg_isready
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       retries: 10
       interval: 10s
       timeout: 5s
-  rabbitmq:
-    image: rabbitmq:3.9-management
-    container_name: rabbitmq
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    environment:
-      RABBITMQ_DEFAULT_USER: fiap
-      RABBITMQ_DEFAULT_PASS: fiap
-    volumes:
-      - rabbitmq-lib:/var/lib/rabbitmq/
-      - rabbitmq-log:/var/log/rabbitmq/
-    networks:
-      - springboot-rabbitmq-network
-    healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"] # Correção: formato CMD para healthcheck
-      interval: 30s
-      timeout: 30s
-      retries: 3
+
 volumes:
   postgres-data:
-  rabbitmq-lib:
-  rabbitmq-log:
+
 networks:
   springboot-postgres-network:
     external: true

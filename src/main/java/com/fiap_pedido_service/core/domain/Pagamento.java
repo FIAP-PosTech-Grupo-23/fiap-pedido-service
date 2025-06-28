@@ -20,4 +20,16 @@ public class Pagamento {
     public Long getId() {
         return id;
     }
+
+    public String getNumeroCartao() {
+        return numeroCartao;
+    }
+
+    public String getCvv() {
+        return cvv;
+    }
+
+    public String getDataVencimento() {
+        return dataVencimento;
+    }
 }
