@@ -59,8 +59,6 @@ volumes:
   rabbitmq-log:
 networks:
   springboot-postgres-network:
-    external: true
     name: fiap-network
   springboot-rabbitmq-network:
-    external: true
     name: fiap-rabbitmq-network
