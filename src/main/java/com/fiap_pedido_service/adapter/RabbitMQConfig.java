@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    public static final String PEDIDO_QUEUE = "pedido_queue";
+    public static final String PEDIDO_QUEUE = "creation_queue";
 
     @Bean
     public Queue notificationQueue() {
