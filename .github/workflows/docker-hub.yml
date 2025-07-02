@@ -27,6 +27,8 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Build package with Maven
+        env:
+          POSTGRESQL_PEDIDO_SERVICE: ${{ vars.POSTGRESQL_PEDIDO_SERVICE }}
         run: mvn -B clean package -DskipTests
 
       - name: Moving artifact to staging folder
