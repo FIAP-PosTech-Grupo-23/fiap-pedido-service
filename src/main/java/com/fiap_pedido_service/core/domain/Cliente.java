@@ -1,19 +1,21 @@
 package com.fiap_pedido_service.core.domain;
 
+import java.util.UUID;
+
 public class Cliente {
-    private Long id;
+    private UUID id;
     private String nome;
     private String cpf;
     private String endereco;
 
-    public Cliente(Long id, String nome, String cpf, String endereco) {
+    public Cliente(UUID id, String nome, String cpf, String endereco) {
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;
         this.endereco = endereco;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 

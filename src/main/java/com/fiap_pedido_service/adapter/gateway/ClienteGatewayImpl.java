@@ -20,7 +20,7 @@ public class ClienteGatewayImpl implements ClienteGateway {
 //        Cliente cliente = client.getCliente(idCliente);
 
         return new Cliente(
-                1L,
+                UUID.randomUUID(),
                 "Carol",
                 "123.123.123-12",
                 "Rua Apinajes 1268"
