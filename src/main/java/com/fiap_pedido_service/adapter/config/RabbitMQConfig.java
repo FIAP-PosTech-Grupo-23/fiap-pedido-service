@@ -1,4 +1,4 @@
-package com.fiap_pedido_service.adapter;
+package com.fiap_pedido_service.adapter.config;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;

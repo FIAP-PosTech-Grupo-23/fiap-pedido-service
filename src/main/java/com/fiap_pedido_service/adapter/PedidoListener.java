@@ -1,5 +1,6 @@
 package com.fiap_pedido_service.adapter;
 
+import com.fiap_pedido_service.adapter.config.RabbitMQConfig;
 import com.fiap_pedido_service.adapter.json.PedidoDTO;
 import com.fiap_pedido_service.core.usecase.ProcessaPedidoUseCase;
 import com.fiap_pedido_service.core.domain.Produto;
