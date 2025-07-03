@@ -21,4 +21,8 @@ public class Estoque {
     public EstoqueEnum getEstoqueEnum() {
         return estoqueEnum;
     }
+
+    public boolean isEstoqueIndisponivel(){
+        return estoqueEnum == EstoqueEnum.INDISPONIVEL;
+    }
 }

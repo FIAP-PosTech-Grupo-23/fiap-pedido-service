@@ -44,6 +44,11 @@ public class Pedido {
         this.valorTotal = valorTotal;
     }
 
+    public Pedido(UUID idCliente, StatusEnum statusEnum) {
+        this.idCliente = idCliente;
+        this.statusEnum = statusEnum;
+    }
+
     public UUID getIdCliente() {
         return idCliente;
     }
@@ -62,5 +67,13 @@ public class Pedido {
 
     public BigDecimal getValorTotal() {
         return valorTotal;
+    }
+
+    public BigDecimal calculaValorTotal() {
+        return produtos.stream()
+                .map(p ->
+                        p.getPreco().multiply(BigDecimal.valueOf(p.getQuantidade()))
+                )
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

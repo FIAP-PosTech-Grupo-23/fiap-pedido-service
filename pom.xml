@@ -128,10 +128,8 @@
 				<configuration>
 					<excludes>
 						<exclude>**/site/jacoco/**</exclude>
-						<exclude>**/domain/**</exclude>
 						<exclude>**/entity/**</exclude>
 						<exclude>**/json/**</exclude>
-						<exclude>**/repository/**</exclude>
 						<exclude>**/config/**</exclude>
 						<exclude>**/exception/**</exclude>
 						<exclude>**/FiapPedidoServiceApplication.class</exclude>

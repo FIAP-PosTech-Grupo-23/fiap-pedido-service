@@ -36,11 +36,15 @@ public class PedidoGatewayImpl implements PedidoGateway {
                 pedido.getValorTotal()
         );
 
-        List<PedidoProdutoEntity> produtosEntity = pedido.getProdutos().stream().map(p ->
-                new PedidoProdutoEntity(pedidoEntity, p.getId(), p.getQuantidade())
-        ).toList();
+        if(Objects.nonNull(pedido.getProdutos())){
+            List<PedidoProdutoEntity> produtosEntity = pedido.getProdutos().stream()
+                    .map(p ->
+                            new PedidoProdutoEntity(pedidoEntity, p.getId(), p.getQuantidade())
+                    ).toList();
 
-        pedidoEntity.setPedidosProdutos(produtosEntity);
+            pedidoEntity.setPedidosProdutos(produtosEntity);
+
+        }
 
         pedidoRepository.save(pedidoEntity);
 

@@ -41,6 +41,17 @@ public class Produto {
         this.atualizadoEm = atualizadoEm;
     }
 
+    public Produto(Long id, String sku, String nome, String descricao, BigDecimal preco, LocalDateTime criadoEm, LocalDateTime atualizadoEm, int quantidade) {
+        this.id = id;
+        this.sku = sku;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.preco = preco;
+        this.criadoEm = criadoEm;
+        this.atualizadoEm = atualizadoEm;
+        this.quantidade = quantidade;
+    }
+
     public Long getId() {
         return id;
     }
