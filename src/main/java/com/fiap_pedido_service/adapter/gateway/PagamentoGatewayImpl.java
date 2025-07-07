@@ -31,10 +31,7 @@ public class PagamentoGatewayImpl implements PagamentoGateway {
                 endereco
         );
 
-//        return pagamentoClient.paga(dto);
+        return pagamentoClient.processaPagamento(dto);
 
-        log.info("VALOR TOTAL {}", valorTotal);
-
-        return 1L;
     }
 }
