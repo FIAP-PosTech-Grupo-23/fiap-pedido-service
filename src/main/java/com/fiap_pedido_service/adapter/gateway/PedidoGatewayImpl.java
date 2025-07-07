@@ -59,7 +59,7 @@ public class PedidoGatewayImpl implements PedidoGateway {
 
         List<Produto> produtos = pedidosProdutos.stream().map(p ->
                 new Produto(
-                        p.getId(),
+                        p.getIdProduto(),
                         p.getQuantidade()
                 )
         ).toList();
