@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(value = "pagamento-client", url = "${pagamento.api.url}")
 public interface PagamentoClient {
 
-    @PostMapping("/pagamentos")
+    @PostMapping()
     Long processaPagamento(@RequestBody PagamentoRequestDTO pagamentoRequestDTO);
 
 
