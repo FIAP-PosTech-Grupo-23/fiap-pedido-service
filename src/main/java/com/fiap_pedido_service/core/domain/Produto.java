@@ -83,4 +83,8 @@ public class Produto {
     public int getQuantidade() {
         return quantidade;
     }
+
+    public BigDecimal calculaValorTotalProduto(){
+        return this.preco.multiply(BigDecimal.valueOf(this.quantidade));
+    }
 }

@@ -69,7 +69,7 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
 
         List<Estoque> estoques = processaBaixaEstoque(mapSkuProdutoRequestPorQuantidade, produtosBancoComQuantidadeDoPedido);
 
-        BigDecimal valorTotal = pedidoComProduto.calculaValorTotal();
+        BigDecimal valorTotal = pedidoComProduto.calculaValorTotalPedido();
 
         if (estoqueIndisponivel(estoques)) {
             salvaPedidoSemPagamento(pedidoComProduto, produtosBancoComQuantidadeDoPedido, valorTotal);

@@ -69,11 +69,9 @@ public class Pedido {
         return valorTotal;
     }
 
-    public BigDecimal calculaValorTotal() {
+    public BigDecimal calculaValorTotalPedido() {
         return produtos.stream()
-                .map(p ->
-                        p.getPreco().multiply(BigDecimal.valueOf(p.getQuantidade()))
-                )
+                .map(Produto::calculaValorTotalProduto)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

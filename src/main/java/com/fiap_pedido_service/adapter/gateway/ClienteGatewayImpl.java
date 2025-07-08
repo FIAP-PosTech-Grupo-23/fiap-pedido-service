@@ -17,7 +17,7 @@ public class ClienteGatewayImpl implements ClienteGateway {
     @Override
     public Cliente obtemDadosCliente(UUID idCliente) {
 
-//        Cliente cliente = client.getCliente(idCliente);
+        Cliente cliente = client.getCliente(idCliente);
 
         return new Cliente(
                 UUID.randomUUID(),
