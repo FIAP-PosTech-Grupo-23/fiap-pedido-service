@@ -5,7 +5,7 @@ CREATE TABLE pedido (
     id_pagamento BIGINT,
     criado_em TIMESTAMP NOT NULL DEFAULT NOW(),
     atualizado_em TIMESTAMP NOT NULL DEFAULT NOW(),
-    valor_total NUMERIC(10,2) NOT NULL
+    valor_total NUMERIC(10,2)
 );
 
 
