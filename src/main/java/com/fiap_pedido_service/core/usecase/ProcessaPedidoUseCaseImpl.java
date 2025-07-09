@@ -2,8 +2,6 @@ package com.fiap_pedido_service.core.usecase;
 
 import com.fiap_pedido_service.core.domain.*;
 import com.fiap_pedido_service.core.gateway.*;
-import com.fiap_pedido_service.core.domain.Pagamento;
-import com.fiap_pedido_service.core.domain.Pedido;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +9,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,9 +57,10 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
                 pedido.getStatusEnum()
         );
 
-        Cliente cliente = clienteGateway.obtemDadosCliente(pedidoComProduto.getIdCliente());
-
-        if(Objects.isNull(cliente)){
+        Cliente cliente;
+        try{
+            cliente = clienteGateway.obtemDadosCliente(pedidoComProduto.getIdCliente());
+        } catch (Exception e) {
             salvaPedidoSemDadosCompletos(pedido, StatusEnum.FECHADO_SEM_CLIENTE);
             return;
         }

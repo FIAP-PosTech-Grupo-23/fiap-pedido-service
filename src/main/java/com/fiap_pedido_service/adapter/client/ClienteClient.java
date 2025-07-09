@@ -1,5 +1,6 @@
 package com.fiap_pedido_service.adapter.client;
 
+import com.fiap_pedido_service.adapter.json.ClienteDTO;
 import com.fiap_pedido_service.core.domain.Cliente;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +12,7 @@ import java.util.UUID;
 public interface ClienteClient {
 
     @GetMapping("/{idCliente}")
-    Cliente getCliente(@PathVariable UUID idCliente);
+    ClienteDTO getCliente(@PathVariable UUID idCliente);
 
 
 }
