@@ -27,7 +27,6 @@ public class ClienteGatewayImpl implements ClienteGateway {
             clienteDTO = client.getCliente(idCliente);
         }catch (Exception e){
             log.error("Erro ao recuperar cliente: {}", e.getMessage());
-            log.error("stack trace: {}", e);
             throw new ClienteNotFoundException(idCliente);
         }
 
