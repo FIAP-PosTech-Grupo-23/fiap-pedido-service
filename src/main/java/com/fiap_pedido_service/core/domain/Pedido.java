@@ -29,6 +29,14 @@ public class Pedido {
         this.statusEnum = statusEnum;
     }
 
+    public Pedido(UUID idCliente, List<Produto> produtos, Pagamento pagamento, StatusEnum statusEnum, boolean valorTotalCalculado) {
+        this.idCliente = idCliente;
+        this.produtos = produtos;
+        this.pagamento = pagamento;
+        this.statusEnum = statusEnum;
+        this.valorTotal = calculaValorTotalPedido();
+    }
+
     public Pedido(UUID idCliente, List<Produto> produtos, Pagamento pagamento, StatusEnum statusEnum, BigDecimal valorTotal) {
         this.idCliente = idCliente;
         this.produtos = produtos;

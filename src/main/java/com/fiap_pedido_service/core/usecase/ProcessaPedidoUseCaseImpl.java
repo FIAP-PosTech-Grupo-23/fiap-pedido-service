@@ -54,7 +54,8 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
                 pedido.getIdCliente(),
                 produtosBancoComQuantidadeDoPedido,
                 pedido.getPagamento(),
-                pedido.getStatusEnum()
+                pedido.getStatusEnum(),
+                true
         );
 
         Cliente cliente;
@@ -67,14 +68,12 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
 
         List<Estoque> estoques = processaBaixaEstoque(mapSkuProdutoRequestPorQuantidade, produtosBancoComQuantidadeDoPedido);
 
-        BigDecimal valorTotal = pedidoComProduto.calculaValorTotalPedido();
-
         if (estoqueIndisponivel(estoques)) {
-            salvaPedidoSemPagamento(pedidoComProduto, produtosBancoComQuantidadeDoPedido, valorTotal);
+            salvaPedidoSemPagamento(pedidoComProduto);
             return;
         }
 
-        Long idPagamento = pagamentoGateway.solicitaPagamento(valorTotal,
+        Long idPagamento = pagamentoGateway.solicitaPagamento(pedidoComProduto.getValorTotal(),
                 pedidoComProduto.getPagamento(),
                 cliente.getNome(),
                 cliente.getCpf(),
@@ -85,7 +84,7 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
                 pedidoComProduto.getProdutos(),
                 new Pagamento(idPagamento),
                 pedidoComProduto.getStatusEnum(),
-                valorTotal);
+                pedidoComProduto.getValorTotal());
 
         pedidoGateway.salvaPedido(pedidoCompleto);
 
@@ -112,12 +111,12 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
         return estoques.stream().anyMatch(Estoque::isEstoqueIndisponivel);
     }
 
-    private void salvaPedidoSemPagamento(Pedido pedido, List<Produto> produtosBanco, BigDecimal valorTotal) {
+    private void salvaPedidoSemPagamento(Pedido pedido) {
         Pedido pedidoSemEstoque = new Pedido(
                 pedido.getIdCliente(),
-                produtosBanco,
+                pedido.getProdutos(),
                 StatusEnum.FECHADO_SEM_ESTOQUE,
-                valorTotal);
+                pedido.getValorTotal());
         pedidoGateway.salvaPedido(pedidoSemEstoque);
     }
 
