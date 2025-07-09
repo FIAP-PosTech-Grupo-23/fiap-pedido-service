@@ -2,11 +2,11 @@ package com.fiap_pedido_service.adapter;
 
 import com.fiap_pedido_service.adapter.config.RabbitMQConfig;
 import com.fiap_pedido_service.adapter.json.PedidoDTO;
-import com.fiap_pedido_service.core.usecase.ProcessaPedidoUseCase;
-import com.fiap_pedido_service.core.domain.Produto;
-import com.fiap_pedido_service.core.domain.StatusEnum;
 import com.fiap_pedido_service.core.domain.Pagamento;
 import com.fiap_pedido_service.core.domain.Pedido;
+import com.fiap_pedido_service.core.domain.Produto;
+import com.fiap_pedido_service.core.domain.StatusEnum;
+import com.fiap_pedido_service.core.usecase.ProcessaPedidoUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

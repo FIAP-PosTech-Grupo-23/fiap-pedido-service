@@ -1,7 +1,6 @@
 package com.fiap_pedido_service.adapter.client;
 
 import com.fiap_pedido_service.adapter.json.ClienteDTO;
-import com.fiap_pedido_service.core.domain.Cliente;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

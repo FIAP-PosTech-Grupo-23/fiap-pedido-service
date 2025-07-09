@@ -1,13 +1,12 @@
 package core;
 
 import com.fiap_pedido_service.core.domain.*;
-import com.fiap_pedido_service.core.gateway.*;
+import com.fiap_pedido_service.core.gateway.EstoqueGateway;
+import com.fiap_pedido_service.core.gateway.PedidoGateway;
 import com.fiap_pedido_service.core.usecase.AtualizaStatusPedidoUseCaseImpl;
-import com.fiap_pedido_service.core.usecase.ProcessaPedidoUseCaseImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -17,8 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class AtualizaStatusPedidoUseCaseTest {

@@ -1,12 +1,10 @@
 package com.fiap_pedido_service.adapter.entity;
 
 import com.fiap_pedido_service.core.domain.StatusEnum;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import jakarta.persistence.*;
-import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

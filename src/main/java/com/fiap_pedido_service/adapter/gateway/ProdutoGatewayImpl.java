@@ -2,8 +2,8 @@ package com.fiap_pedido_service.adapter.gateway;
 
 import com.fiap_pedido_service.adapter.client.ProdutoClient;
 import com.fiap_pedido_service.adapter.json.ProdutoDTO;
-import com.fiap_pedido_service.core.gateway.ProdutoGateway;
 import com.fiap_pedido_service.core.domain.Produto;
+import com.fiap_pedido_service.core.gateway.ProdutoGateway;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
