@@ -47,7 +47,6 @@ class ProcessaPedidoUseCaseTest {
     }
 
     @Test
-    @DisplayName("✅ Deve processar pedido com estoque disponível e salvar com pagamento")
     void deveProcessarPedidoComEstoqueDisponivel() {
         // Arrange
         UUID uuidCliente = UUID.randomUUID();
@@ -81,7 +80,6 @@ class ProcessaPedidoUseCaseTest {
     }
 
     @Test
-    @DisplayName("❌ Deve processar pedido com estoque indisponível e salvar sem pagamento")
     void deveProcessarPedidoComEstoqueIndisponivel() {
         // Arrange
         UUID uuidCliente = UUID.randomUUID();
@@ -111,7 +109,6 @@ class ProcessaPedidoUseCaseTest {
     }
 
     @Test
-    @DisplayName("🧮 Deve calcular valor total corretamente")
     void deveCalcularValorTotalCorretamente() {
         // Arrange
         UUID uuidCliente = UUID.randomUUID();

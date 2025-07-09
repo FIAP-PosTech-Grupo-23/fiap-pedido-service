@@ -1,6 +1,6 @@
 CREATE TABLE pedido (
     id SERIAL PRIMARY KEY,
-    id_cliente UUID NOT NULL,
+    id_cliente UUID,
     status VARCHAR(30) NOT NULL,
     id_pagamento BIGINT,
     criado_em TIMESTAMP NOT NULL DEFAULT NOW(),

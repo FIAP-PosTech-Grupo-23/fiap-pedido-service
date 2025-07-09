@@ -33,8 +33,8 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
 
         List<Produto> produtosBanco = produtoGateway.obtemDadosProdutos(skus);
 
-        if(produtosBanco.isEmpty()){
-            salvaPedidoSemDadosCompletos(pedido, StatusEnum.FECHADO_SEM_PRODUTO);
+        if (produtosBanco.isEmpty()) {
+            salvaPedidoSemProduto(pedido);
             return;
         }
 
@@ -51,18 +51,16 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
                 ).toList();
 
         Pedido pedidoComProduto = new Pedido(
-                pedido.getIdCliente(),
                 produtosBancoComQuantidadeDoPedido,
                 pedido.getPagamento(),
-                pedido.getStatusEnum(),
-                true
+                pedido.getStatusEnum()
         );
 
         Cliente cliente;
-        try{
-            cliente = clienteGateway.obtemDadosCliente(pedidoComProduto.getIdCliente());
+        try {
+            cliente = clienteGateway.obtemDadosCliente(pedido.getIdCliente());
         } catch (Exception e) {
-            salvaPedidoSemDadosCompletos(pedido, StatusEnum.FECHADO_SEM_CLIENTE);
+            salvaPedidoSemCliente(pedidoComProduto);
             return;
         }
 
@@ -80,7 +78,7 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
                 cliente.getEndereco());
 
         Pedido pedidoCompleto = new Pedido(
-                pedidoComProduto.getIdCliente(),
+                cliente.getId(),
                 pedidoComProduto.getProdutos(),
                 new Pagamento(idPagamento),
                 pedidoComProduto.getStatusEnum(),
@@ -120,10 +118,21 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
         pedidoGateway.salvaPedido(pedidoSemEstoque);
     }
 
-    private void salvaPedidoSemDadosCompletos(Pedido pedido, StatusEnum statusEnum) {
+    private void salvaPedidoSemProduto(Pedido pedido) {
         Pedido pedidoSemProduto = new Pedido(
-                pedido.getIdCliente(),
-                statusEnum);
+                pedido.getPagamento(),
+                StatusEnum.FECHADO_SEM_PRODUTO
+        );
         pedidoGateway.salvaPedido(pedidoSemProduto);
+    }
+
+    private void salvaPedidoSemCliente(Pedido pedido) {
+
+        Pedido pedidoSemCliente = new Pedido(
+            pedido.getProdutos(),
+                pedido.getPagamento(),
+                StatusEnum.FECHADO_SEM_CLIENTE
+        );
+        pedidoGateway.salvaPedido(pedidoSemCliente);
     }
 }
