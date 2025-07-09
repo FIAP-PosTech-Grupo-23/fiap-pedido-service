@@ -3,7 +3,8 @@ package com.fiap_pedido_service.core.gateway;
 import com.fiap_pedido_service.core.domain.Produto;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ProdutoGateway {
-    List<Produto> obtemDadosProdutos(List<String> sku);
+    List<Produto> obtemDadosProdutos(Set<String> sku);
 }

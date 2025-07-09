@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -33,7 +34,7 @@ class ProdutoGatewayTest {
     @Test
     void obtemDadosProdutos_deveRetornarListaDeProdutos_quandoClientRetornaDados() {
         // Arrange
-        List<String> skus = List.of("sku1", "sku2");
+        Set<String> skus = Set.of("sku1", "sku2");
         ProdutoDTO dto1 = new ProdutoDTO(1L, "sku1", "Produto 1", "Descrição 1", BigDecimal.TEN, LocalDateTime.now(), LocalDateTime.now(), 10);
         ProdutoDTO dto2 = new ProdutoDTO(2L, "sku2", "Produto 2", "Descrição 2", BigDecimal.ONE, LocalDateTime.now(), LocalDateTime.now(), 20);
 
@@ -57,7 +58,7 @@ class ProdutoGatewayTest {
     @Test
     void obtemDadosProdutos_deveRetornarListaVazia_quandoClientLancaExcecao() {
         // Arrange
-        List<String> skus = List.of("sku1", "sku2");
+        Set<String> skus = Set.of("sku1", "sku2");
         when(produtoClient.getProdutosPorSkus(skus)).thenThrow(new RuntimeException("Erro ao chamar produto"));
 
         // Act

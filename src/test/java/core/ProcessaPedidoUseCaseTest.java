@@ -4,7 +4,6 @@ import com.fiap_pedido_service.core.domain.*;
 import com.fiap_pedido_service.core.gateway.*;
 import com.fiap_pedido_service.core.usecase.ProcessaPedidoUseCaseImpl;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
@@ -14,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -60,7 +60,7 @@ class ProcessaPedidoUseCaseTest {
 
         Estoque estoque = new Estoque(1L, 1L, 2, EstoqueEnum.DISPONIVEL);
 
-        when(produtoGateway.obtemDadosProdutos(List.of("sku123"))).thenReturn(List.of(produtoBanco));
+        when(produtoGateway.obtemDadosProdutos(Set.of("sku123"))).thenReturn(List.of(produtoBanco));
         when(clienteGateway.obtemDadosCliente(uuidCliente)).thenReturn(cliente);
         when(estoqueGateway.baixaEstoque(anyList())).thenReturn(List.of(estoque));
         when(pagamentoGateway.solicitaPagamento(eq(BigDecimal.valueOf(20)), any(), eq("Diego"), eq("12345678900"), eq("Rua Exemplo")))
@@ -91,7 +91,7 @@ class ProcessaPedidoUseCaseTest {
 
         Estoque estoque = new Estoque(1L, 1L, 1, EstoqueEnum.INDISPONIVEL);
 
-        when(produtoGateway.obtemDadosProdutos(List.of("sku123"))).thenReturn(List.of(produtoBanco));
+        when(produtoGateway.obtemDadosProdutos(Set.of("sku123"))).thenReturn(List.of(produtoBanco));
         when(clienteGateway.obtemDadosCliente(uuidCliente)).thenReturn(new Cliente(uuidCliente, "Diego", "123.123.123-12", "Rua FIAP"));
         when(estoqueGateway.baixaEstoque(anyList())).thenReturn(List.of(estoque));
 
@@ -129,7 +129,7 @@ class ProcessaPedidoUseCaseTest {
 
         Estoque estoque2 = new Estoque(2L, 2L, 3, EstoqueEnum.DISPONIVEL);
 
-        when(produtoGateway.obtemDadosProdutos(List.of("sku1", "sku2"))).thenReturn(List.of(p1Banco, p2Banco));
+        when(produtoGateway.obtemDadosProdutos(Set.of("sku1", "sku2"))).thenReturn(List.of(p1Banco, p2Banco));
         when(clienteGateway.obtemDadosCliente(uuidCliente)).thenReturn(cliente);
         when(estoqueGateway.baixaEstoque(anyList())).thenReturn(List.of(estoque1, estoque2));
         when(pagamentoGateway.solicitaPagamento(eq(BigDecimal.valueOf(26)), any(), any(), any(), any())).thenReturn(456L);

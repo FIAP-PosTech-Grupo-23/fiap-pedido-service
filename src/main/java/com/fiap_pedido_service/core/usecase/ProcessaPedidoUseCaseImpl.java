@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +29,7 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
         Map<String, Integer> mapSkuProdutoRequestPorQuantidade = produtosRequest.stream()
                 .collect(Collectors.toMap(Produto::getSku, Produto::getQuantidade));
 
-        List<String> skus = produtosRequest.stream().map(Produto::getSku).toList();
+        Set<String> skus = mapSkuProdutoRequestPorQuantidade.keySet();
 
         List<Produto> produtosBanco = produtoGateway.obtemDadosProdutos(skus);
 
@@ -126,7 +127,6 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
     }
 
     private void salvaPedidoSemCliente(Pedido pedido) {
-
         Pedido pedidoSemCliente = new Pedido(
                 pedido.getProdutos(),
                 pedido.getPagamento(),

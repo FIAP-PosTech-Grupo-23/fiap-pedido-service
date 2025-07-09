@@ -6,12 +6,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Set;
 
 @FeignClient(value = "produto-client", url = "${produto.api.url}")
 public interface ProdutoClient {
 
     @PostMapping("/listar")
-    List<ProdutoDTO> getProdutosPorSkus(@RequestBody List<String> skus);
+    List<ProdutoDTO> getProdutosPorSkus(@RequestBody Set<String> skus);
 
 
 }

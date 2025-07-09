@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +19,7 @@ public class ProdutoGatewayImpl implements ProdutoGateway {
     private final ProdutoClient client;
 
     @Override
-    public List<Produto> obtemDadosProdutos(List<String> skus) {
+    public List<Produto> obtemDadosProdutos(Set<String> skus) {
 
         log.info("INICIANDO RECUPERACAO PRODUTOS");
         List<ProdutoDTO> produtosPorSkus = List.of();
