@@ -11,7 +11,7 @@ import java.util.UUID;
 @FeignClient(value = "cliente-client", url = "${cliente.api.url}")
 public interface ClienteClient {
 
-    @GetMapping("/{idCliente}")
+    @GetMapping("/clientes/{idCliente}")
     ClienteDTO getCliente(@PathVariable String idCliente);
 
 
