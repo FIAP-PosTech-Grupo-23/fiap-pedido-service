@@ -58,7 +58,7 @@ class ProcessaPedidoUseCaseTest {
 
         Cliente cliente = new Cliente(uuidCliente, "Diego", "12345678900", "Rua Exemplo");
 
-        Estoque estoque = new Estoque(1L, 1L, 2, EstoqueEnum.DISPONIVEL);
+        Estoque estoque = new Estoque(1L, 2, EstoqueEnum.DISPONIVEL);
 
         when(produtoGateway.obtemDadosProdutos(Set.of("sku123"))).thenReturn(List.of(produtoBanco));
         when(clienteGateway.obtemDadosCliente(uuidCliente)).thenReturn(cliente);
@@ -89,7 +89,7 @@ class ProcessaPedidoUseCaseTest {
 
         Produto produtoBanco = new Produto(1L, "sku123", "Produto Teste", "Produto Teste", BigDecimal.TEN, LocalDateTime.now(), LocalDateTime.now());
 
-        Estoque estoque = new Estoque(1L, 1L, 1, EstoqueEnum.INDISPONIVEL);
+        Estoque estoque = new Estoque(1L, 1, EstoqueEnum.INDISPONIVEL);
 
         when(produtoGateway.obtemDadosProdutos(Set.of("sku123"))).thenReturn(List.of(produtoBanco));
         when(clienteGateway.obtemDadosCliente(uuidCliente)).thenReturn(new Cliente(uuidCliente, "Diego", "123.123.123-12", "Rua FIAP"));
@@ -125,9 +125,9 @@ class ProcessaPedidoUseCaseTest {
 
         Cliente cliente = new Cliente(uuidCliente, "Maria", "98765432100", "Rua XYZ");
 
-        Estoque estoque1 = new Estoque(1L, 1L, 1, EstoqueEnum.DISPONIVEL);
+        Estoque estoque1 = new Estoque(1L, 1, EstoqueEnum.DISPONIVEL);
 
-        Estoque estoque2 = new Estoque(2L, 2L, 3, EstoqueEnum.DISPONIVEL);
+        Estoque estoque2 = new Estoque(2L, 3, EstoqueEnum.DISPONIVEL);
 
         when(produtoGateway.obtemDadosProdutos(Set.of("sku1", "sku2"))).thenReturn(List.of(p1Banco, p2Banco));
         when(clienteGateway.obtemDadosCliente(uuidCliente)).thenReturn(cliente);

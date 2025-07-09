@@ -1,7 +1,7 @@
 package com.fiap_pedido_service.core.domain;
 
 public class Estoque {
-    private Long id;
+
     private Long idProduto;
     private int quantidade;
     private EstoqueEnum estoqueEnum;
@@ -11,18 +11,22 @@ public class Estoque {
         this.quantidade = quantidade;
     }
 
-    public Estoque(Long id, Long idProduto, int quantidade, EstoqueEnum estoqueEnum) {
-        this.id = id;
+    public Estoque(Long idProduto, int quantidade, EstoqueEnum estoqueEnum) {
         this.idProduto = idProduto;
         this.quantidade = quantidade;
         this.estoqueEnum = estoqueEnum;
     }
 
-    public EstoqueEnum getEstoqueEnum() {
-        return estoqueEnum;
+    public Long getIdProduto() {
+        return idProduto;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
     }
 
     public boolean isEstoqueIndisponivel(){
         return estoqueEnum == EstoqueEnum.INDISPONIVEL;
     }
+
 }

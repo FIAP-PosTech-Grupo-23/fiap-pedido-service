@@ -1,5 +1,6 @@
 package com.fiap_pedido_service.adapter.client;
 
+import com.fiap_pedido_service.adapter.json.EstoqueDTO;
 import com.fiap_pedido_service.core.domain.Estoque;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +12,6 @@ import java.util.List;
 public interface EstoqueClient {
 
     @PostMapping("/baixa")
-    List<Estoque> baixaEstoque(@RequestBody List<Estoque> estoques);
-
+    List<EstoqueDTO> baixaEstoque(@RequestBody List<EstoqueDTO> estoques);
 
 }

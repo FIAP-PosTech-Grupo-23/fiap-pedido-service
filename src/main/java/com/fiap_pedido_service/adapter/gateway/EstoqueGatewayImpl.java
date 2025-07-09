@@ -1,16 +1,18 @@
 package com.fiap_pedido_service.adapter.gateway;
 
 import com.fiap_pedido_service.adapter.client.EstoqueClient;
-import com.fiap_pedido_service.core.gateway.EstoqueGateway;
+import com.fiap_pedido_service.adapter.json.EstoqueDTO;
 import com.fiap_pedido_service.core.domain.Estoque;
-import com.fiap_pedido_service.core.domain.EstoqueEnum;
+import com.fiap_pedido_service.core.gateway.EstoqueGateway;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class EstoqueGatewayImpl implements EstoqueGateway {
 
     private final EstoqueClient estoqueClient;
@@ -18,12 +20,19 @@ public class EstoqueGatewayImpl implements EstoqueGateway {
     @Override
     public List<Estoque> baixaEstoque(List<Estoque> estoques) {
 
-//        List<Estoque> estoques1 = estoqueClient.baixaEstoque(estoques);
+        List<EstoqueDTO> estoquesRequestDTO = estoques.stream().map(estoque ->
+                new EstoqueDTO(estoque.getIdProduto(), estoque.getQuantidade())
+        ).toList();
 
-        Estoque e1 = new Estoque(1L, 1L, 10, EstoqueEnum.DISPONIVEL);
+        log.info("Realizando chamada para estoques com request: {}", estoquesRequestDTO);
 
-        return List.of(e1);
+        List<EstoqueDTO> estoquesDTO = estoqueClient.baixaEstoque(estoquesRequestDTO);
 
+        log.info("Retorno estoques: {}", estoquesDTO);
+
+        return estoquesDTO.stream().map(estoque ->
+                new Estoque(estoque.getIdProduto(), estoque.getQuantidade(), estoque.getStatus())
+        ).toList();
 
     }
 }
