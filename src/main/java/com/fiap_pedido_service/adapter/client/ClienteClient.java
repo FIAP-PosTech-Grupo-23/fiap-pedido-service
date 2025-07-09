@@ -12,7 +12,7 @@ import java.util.UUID;
 public interface ClienteClient {
 
     @GetMapping("/{idCliente}")
-    ClienteDTO getCliente(@PathVariable UUID idCliente);
+    ClienteDTO getCliente(@PathVariable String idCliente);
 
 
 }
