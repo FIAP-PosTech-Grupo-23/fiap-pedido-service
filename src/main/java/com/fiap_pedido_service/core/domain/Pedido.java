@@ -76,7 +76,7 @@ public class Pedido {
         return valorTotal;
     }
 
-    public BigDecimal calculaValorTotalPedido() {
+    private BigDecimal calculaValorTotalPedido() {
         return produtos.stream()
                 .map(Produto::calculaValorTotalProduto)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);

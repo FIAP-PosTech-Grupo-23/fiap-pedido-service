@@ -84,7 +84,7 @@ public class Produto {
         return quantidade;
     }
 
-    public BigDecimal calculaValorTotalProduto(){
+    protected BigDecimal calculaValorTotalProduto(){
         return this.preco.multiply(BigDecimal.valueOf(this.quantidade));
     }
 }
