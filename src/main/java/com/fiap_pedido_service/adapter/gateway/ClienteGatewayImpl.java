@@ -1,6 +1,7 @@
 package com.fiap_pedido_service.adapter.gateway;
 
 import com.fiap_pedido_service.adapter.client.ClienteClient;
+import com.fiap_pedido_service.adapter.exception.ClienteNotFoundException;
 import com.fiap_pedido_service.adapter.json.ClienteDTO;
 import com.fiap_pedido_service.core.domain.Cliente;
 import com.fiap_pedido_service.core.gateway.ClienteGateway;
@@ -20,7 +21,14 @@ public class ClienteGatewayImpl implements ClienteGateway {
     @Override
     public Cliente obtemDadosCliente(UUID idCliente) {
 
-        ClienteDTO clienteDTO = client.getCliente(idCliente);
+        ClienteDTO clienteDTO;
+
+        try{
+            clienteDTO = client.getCliente(idCliente);
+        }catch (Exception e){
+            log.error("Erro ao recuperar cliente: {}", e.getMessage());
+            throw new ClienteNotFoundException(idCliente);
+        }
 
         log.info("Dados do Cliente obtidos: {}", clienteDTO);
 

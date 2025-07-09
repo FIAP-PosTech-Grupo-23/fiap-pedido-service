@@ -5,7 +5,6 @@ import com.fiap_pedido_service.core.gateway.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -129,7 +128,7 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
     private void salvaPedidoSemCliente(Pedido pedido) {
 
         Pedido pedidoSemCliente = new Pedido(
-            pedido.getProdutos(),
+                pedido.getProdutos(),
                 pedido.getPagamento(),
                 StatusEnum.FECHADO_SEM_CLIENTE
         );
