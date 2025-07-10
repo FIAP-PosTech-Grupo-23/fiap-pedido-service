@@ -58,7 +58,7 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
 
         Cliente cliente;
         try {
-            cliente = clienteGateway.obtemDadosCliente(pedido.getIdCliente());
+            cliente = clienteGateway.obtemDadosCliente(pedido.getCliente().getId());
         } catch (Exception e) {
             salvaPedidoSemCliente(pedidoComProduto);
             return;
@@ -78,7 +78,7 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
                 cliente.getEndereco());
 
         Pedido pedidoCompleto = new Pedido(
-                cliente.getId(),
+                cliente,
                 pedidoComProduto.getProdutos(),
                 new Pagamento(idPagamento),
                 pedidoComProduto.getStatusEnum(),
@@ -111,7 +111,7 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
 
     private void salvaPedidoSemPagamento(Pedido pedido) {
         Pedido pedidoSemEstoque = new Pedido(
-                pedido.getIdCliente(),
+                pedido.getCliente(),
                 pedido.getProdutos(),
                 StatusEnum.FECHADO_SEM_ESTOQUE,
                 pedido.getValorTotal());

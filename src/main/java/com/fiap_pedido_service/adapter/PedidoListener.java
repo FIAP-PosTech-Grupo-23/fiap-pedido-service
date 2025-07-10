@@ -2,10 +2,7 @@ package com.fiap_pedido_service.adapter;
 
 import com.fiap_pedido_service.adapter.config.RabbitMQConfig;
 import com.fiap_pedido_service.adapter.json.PedidoDTO;
-import com.fiap_pedido_service.core.domain.Pagamento;
-import com.fiap_pedido_service.core.domain.Pedido;
-import com.fiap_pedido_service.core.domain.Produto;
-import com.fiap_pedido_service.core.domain.StatusEnum;
+import com.fiap_pedido_service.core.domain.*;
 import com.fiap_pedido_service.core.usecase.ProcessaPedidoUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +26,7 @@ public class PedidoListener {
 
     private Pedido mapCriaPedido(PedidoDTO peditoDto) {
 
-        return new Pedido(peditoDto.getIdCliente(),
+        return new Pedido(new Cliente(peditoDto.getIdCliente()),
                 peditoDto.getProdutos().stream()
                         .map(p ->
                                 new Produto(p.getSku(), p.getQuantidade())

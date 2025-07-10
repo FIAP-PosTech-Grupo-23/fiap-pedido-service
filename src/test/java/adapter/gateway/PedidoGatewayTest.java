@@ -4,10 +4,7 @@ import com.fiap_pedido_service.adapter.entity.PedidoEntity;
 import com.fiap_pedido_service.adapter.entity.PedidoProdutoEntity;
 import com.fiap_pedido_service.adapter.gateway.PedidoGatewayImpl;
 import com.fiap_pedido_service.adapter.repository.PedidoRepository;
-import com.fiap_pedido_service.core.domain.Pagamento;
-import com.fiap_pedido_service.core.domain.Pedido;
-import com.fiap_pedido_service.core.domain.Produto;
-import com.fiap_pedido_service.core.domain.StatusEnum;
+import com.fiap_pedido_service.core.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -42,7 +39,7 @@ class PedidoGatewayTest {
         Produto produto = new Produto(1L, 2);
         UUID uuidCliente = UUID.randomUUID();
         Pedido pedido = new Pedido(
-                uuidCliente,
+                new Cliente(uuidCliente),
                 List.of(produto),
                 new Pagamento(999L),
                 StatusEnum.ABERTO,
@@ -69,7 +66,7 @@ class PedidoGatewayTest {
     @Test
     void salvaPedido_deveSalvarPedidoSemProdutos() {
         Pedido pedido = new Pedido(
-                UUID.randomUUID(),
+                new Cliente(UUID.randomUUID()),
                 null,
                 new Pagamento(999L),
                 StatusEnum.ABERTO,
@@ -104,7 +101,7 @@ class PedidoGatewayTest {
 
         Pedido pedido = pedidoGateway.recuperaPedidoPorIdPagamento(idPagamento);
 
-        assertEquals(uuidCliente, pedido.getIdCliente());
+        assertEquals(uuidCliente, pedido.getCliente().getId());
         assertEquals(1, pedido.getProdutos().size());
         assertEquals(1L, pedido.getProdutos().get(0).getId());
         assertEquals(5, pedido.getProdutos().get(0).getQuantidade());

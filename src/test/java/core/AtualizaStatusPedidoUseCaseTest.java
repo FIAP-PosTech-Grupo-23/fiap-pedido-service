@@ -43,7 +43,7 @@ class AtualizaStatusPedidoUseCaseTest {
         UUID uuidCliente = UUID.randomUUID();
 
         Produto produtoRequest = new Produto("sku123", 2);
-        Pedido pedido = new Pedido(uuidCliente, List.of(produtoRequest), new Pagamento(1L), StatusEnum.ABERTO, null);
+        Pedido pedido = new Pedido(new Cliente(uuidCliente), List.of(produtoRequest), new Pagamento(1L), StatusEnum.ABERTO, null);
 
         when(pedidoGateway.recuperaPedidoPorIdPagamento(123L)).thenReturn(pedido);
 
@@ -65,7 +65,7 @@ class AtualizaStatusPedidoUseCaseTest {
 
         Produto produto2 = new Produto(2L, "sku2", "Produto 2", "Produto Teste", BigDecimal.valueOf(3), LocalDateTime.now(), LocalDateTime.now());
 
-        Pedido pedido = new Pedido(uuidCliente, List.of(produto1, produto2), new Pagamento("123", "123", "05/2030"), StatusEnum.ABERTO, null);
+        Pedido pedido = new Pedido(new Cliente(uuidCliente), List.of(produto1, produto2), new Pagamento("123", "123", "05/2030"), StatusEnum.ABERTO, null);
 
         PedidoStatusPagamento statusPagamento = new PedidoStatusPagamento(456L, StatusPagamentoEnum.REPROVADO);
 

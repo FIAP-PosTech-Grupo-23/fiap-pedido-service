@@ -7,14 +7,14 @@ import java.util.UUID;
 public class Pedido {
 
     private Long id;
-    private UUID idCliente;
+    private Cliente cliente;
     private List<Produto> produtos;
     private Pagamento pagamento;
     private StatusEnum statusEnum;
     private BigDecimal valorTotal;
 
-    public Pedido(UUID idCliente, List<Produto> produtos, Pagamento pagamento, StatusEnum statusEnum) {
-        this.idCliente = idCliente;
+    public Pedido(Cliente cliente, List<Produto> produtos, Pagamento pagamento, StatusEnum statusEnum) {
+        this.cliente = cliente;
         this.produtos = produtos;
         this.pagamento = pagamento;
         this.statusEnum = statusEnum;
@@ -32,32 +32,32 @@ public class Pedido {
         this.valorTotal = calculaValorTotalPedido();
     }
 
-    public Pedido(UUID idCliente, List<Produto> produtos, StatusEnum statusEnum, BigDecimal valorTotal) {
-        this.idCliente = idCliente;
+    public Pedido(Cliente cliente, List<Produto> produtos, StatusEnum statusEnum, BigDecimal valorTotal) {
+        this.cliente = cliente;
         this.produtos = produtos;
         this.statusEnum = statusEnum;
         this.valorTotal = valorTotal;
     }
 
-    public Pedido(UUID idCliente, List<Produto> produtos, Pagamento pagamento, StatusEnum statusEnum, BigDecimal valorTotal) {
-        this.idCliente = idCliente;
+    public Pedido(Cliente cliente, List<Produto> produtos, Pagamento pagamento, StatusEnum statusEnum, BigDecimal valorTotal) {
+        this.cliente = cliente;
         this.produtos = produtos;
         this.pagamento = pagamento;
         this.statusEnum = statusEnum;
         this.valorTotal = valorTotal;
     }
 
-    public Pedido(Long id, UUID idCliente, List<Produto> produtos, Pagamento pagamento, StatusEnum statusEnum, BigDecimal valorTotal) {
+    public Pedido(Long id, Cliente cliente, List<Produto> produtos, Pagamento pagamento, StatusEnum statusEnum, BigDecimal valorTotal) {
         this.id = id;
-        this.idCliente = idCliente;
+        this.cliente = cliente;
         this.produtos = produtos;
         this.pagamento = pagamento;
         this.statusEnum = statusEnum;
         this.valorTotal = valorTotal;
     }
 
-    public UUID getIdCliente() {
-        return idCliente;
+    public Cliente getCliente() {
+        return cliente;
     }
 
     public List<Produto> getProdutos() {

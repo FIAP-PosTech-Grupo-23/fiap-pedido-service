@@ -3,10 +3,7 @@ package com.fiap_pedido_service.adapter.gateway;
 import com.fiap_pedido_service.adapter.entity.PedidoEntity;
 import com.fiap_pedido_service.adapter.entity.PedidoProdutoEntity;
 import com.fiap_pedido_service.adapter.repository.PedidoRepository;
-import com.fiap_pedido_service.core.domain.Pagamento;
-import com.fiap_pedido_service.core.domain.Pedido;
-import com.fiap_pedido_service.core.domain.Produto;
-import com.fiap_pedido_service.core.domain.StatusEnum;
+import com.fiap_pedido_service.core.domain.*;
 import com.fiap_pedido_service.core.gateway.PedidoGateway;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +25,7 @@ public class PedidoGatewayImpl implements PedidoGateway {
     @Transactional
     public void salvaPedido(Pedido pedido) {
 
-        PedidoEntity pedidoEntity = new PedidoEntity(pedido.getIdCliente(),
+        PedidoEntity pedidoEntity = new PedidoEntity(pedido.getCliente().getId(),
                 Objects.nonNull(pedido.getPagamento()) ? pedido.getPagamento().getId() : null,
                 pedido.getStatusEnum(),
                 LocalDateTime.now(),
@@ -66,7 +63,7 @@ public class PedidoGatewayImpl implements PedidoGateway {
 
         return new Pedido(
                 pedidoEntity.getId(),
-                pedidoEntity.getIdCliente(),
+                new Cliente(pedidoEntity.getIdCliente()),
                 produtos,
                 new Pagamento(pedidoEntity.getIdPagamento()),
                 pedidoEntity.getStatus(),

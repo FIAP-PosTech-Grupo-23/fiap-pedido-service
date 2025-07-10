@@ -52,7 +52,7 @@ class ProcessaPedidoUseCaseTest {
         UUID uuidCliente = UUID.randomUUID();
 
         Produto produtoRequest = new Produto("sku123", 2);
-        Pedido pedido = new Pedido(uuidCliente, List.of(produtoRequest), new Pagamento(1L), StatusEnum.ABERTO, null);
+        Pedido pedido = new Pedido(new Cliente(uuidCliente), List.of(produtoRequest), new Pagamento(1L), StatusEnum.ABERTO, null);
 
         Produto produtoBanco = new Produto(1L, "sku123", "Produto Teste", "Produto Teste", BigDecimal.TEN, LocalDateTime.now(), LocalDateTime.now());
 
@@ -74,7 +74,7 @@ class ProcessaPedidoUseCaseTest {
         verify(pedidoGateway).salvaPedido(captor.capture());
 
         Pedido pedidoSalvo = captor.getValue();
-        assertEquals(uuidCliente, pedidoSalvo.getIdCliente());
+        assertEquals(uuidCliente, pedidoSalvo.getCliente().getId());
         assertEquals(BigDecimal.valueOf(20), pedidoSalvo.getValorTotal());
         assertEquals(123L, pedidoSalvo.getPagamento().getId());
     }
@@ -85,7 +85,7 @@ class ProcessaPedidoUseCaseTest {
         UUID uuidCliente = UUID.randomUUID();
 
         Produto produtoRequest = new Produto("sku123", 2);
-        Pedido pedido = new Pedido(uuidCliente, List.of(produtoRequest), new Pagamento("123", "123", "05/2030"), StatusEnum.ABERTO, null);
+        Pedido pedido = new Pedido(new Cliente(uuidCliente), List.of(produtoRequest), new Pagamento("123", "123", "05/2030"), StatusEnum.ABERTO, null);
 
         Produto produtoBanco = new Produto(1L, "sku123", "Produto Teste", "Produto Teste", BigDecimal.TEN, LocalDateTime.now(), LocalDateTime.now());
 
@@ -117,7 +117,7 @@ class ProcessaPedidoUseCaseTest {
         Produto produto2 = new Produto("sku2", 3);
 
         // método protegido - testamos indiretamente via pedido completo
-        Pedido pedido = new Pedido(uuidCliente, List.of(produto1, produto2), new Pagamento("123", "123", "05/2030"), StatusEnum.ABERTO, null);
+        Pedido pedido = new Pedido(new Cliente(uuidCliente), List.of(produto1, produto2), new Pagamento("123", "123", "05/2030"), StatusEnum.ABERTO, null);
 
         Produto p1Banco = new Produto(1L, "sku1", "Produto 1", "Produto Teste", BigDecimal.valueOf(5), LocalDateTime.now(), LocalDateTime.now());
 

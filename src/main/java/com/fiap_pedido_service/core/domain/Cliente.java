@@ -8,6 +8,10 @@ public class Cliente {
     private String cpf;
     private String endereco;
 
+    public Cliente(UUID id) {
+        this.id = id;
+    }
+
     public Cliente(UUID id, String nome, String cpf, String endereco) {
         this.id = id;
         this.nome = nome;
