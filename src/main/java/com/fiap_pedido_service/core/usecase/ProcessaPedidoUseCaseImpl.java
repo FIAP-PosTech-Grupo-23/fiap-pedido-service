@@ -67,7 +67,7 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
         List<Estoque> estoques = processaBaixaEstoque(mapSkuProdutoRequestPorQuantidade, produtosBancoComQuantidadeDoPedido);
 
         if (estoqueIndisponivel(estoques)) {
-            salvaPedidoSemPagamento(pedidoComProduto);
+            salvaPedidoSemEstoque(pedidoComProduto, cliente);
             return;
         }
 
@@ -109,9 +109,9 @@ public class ProcessaPedidoUseCaseImpl implements ProcessaPedidoUseCase {
         return estoques.stream().anyMatch(Estoque::isEstoqueIndisponivel);
     }
 
-    private void salvaPedidoSemPagamento(Pedido pedido) {
+    private void salvaPedidoSemEstoque(Pedido pedido, Cliente cliente) {
         Pedido pedidoSemEstoque = new Pedido(
-                pedido.getCliente(),
+                cliente,
                 pedido.getProdutos(),
                 StatusEnum.FECHADO_SEM_ESTOQUE,
                 pedido.getValorTotal());
