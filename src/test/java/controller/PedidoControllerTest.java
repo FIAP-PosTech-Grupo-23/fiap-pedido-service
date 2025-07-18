@@ -1,10 +1,10 @@
 package controller;
 
-import com.fiap_pedido_service.adapter.PedidoController;
-import com.fiap_pedido_service.adapter.json.PedidoStatusPagamentoDTO;
-import com.fiap_pedido_service.core.domain.PedidoStatusPagamento;
-import com.fiap_pedido_service.core.domain.StatusPagamentoEnum;
-import com.fiap_pedido_service.core.usecase.AtualizaStatusPedidoUseCase;
+import com.fiap_pedido_service.controller.PedidoController;
+import com.fiap_pedido_service.controller.json.PedidoStatusPagamentoDTO;
+import com.fiap_pedido_service.domain.PedidoStatusPagamento;
+import com.fiap_pedido_service.domain.StatusPagamentoEnum;
+import com.fiap_pedido_service.usecase.AtualizaStatusPedidoUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

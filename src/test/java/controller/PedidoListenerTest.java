@@ -1,11 +1,11 @@
 package controller;
 
-import com.fiap_pedido_service.adapter.PedidoListener;
-import com.fiap_pedido_service.adapter.json.PagamentoDTO;
-import com.fiap_pedido_service.adapter.json.PedidoDTO;
-import com.fiap_pedido_service.adapter.json.ProdutoDTO;
-import com.fiap_pedido_service.core.domain.Pedido;
-import com.fiap_pedido_service.core.usecase.ProcessaPedidoUseCase;
+import com.fiap_pedido_service.controller.PedidoListener;
+import com.fiap_pedido_service.controller.json.PagamentoDTO;
+import com.fiap_pedido_service.controller.json.PedidoDTO;
+import com.fiap_pedido_service.controller.json.ProdutoDTO;
+import com.fiap_pedido_service.domain.Pedido;
+import com.fiap_pedido_service.usecase.ProcessaPedidoUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
