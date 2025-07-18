@@ -25,7 +25,7 @@ public class PedidoGatewayImpl implements PedidoGateway {
     @Transactional
     public void salvaPedido(Pedido pedido) {
 
-        PedidoEntity pedidoEntity = new PedidoEntity(pedido.getCliente().getId(),
+        PedidoEntity pedidoEntity = new PedidoEntity(Objects.nonNull(pedido.getCliente()) ? pedido.getCliente().getId() : null,
                 Objects.nonNull(pedido.getPagamento()) ? pedido.getPagamento().getId() : null,
                 pedido.getStatusEnum(),
                 LocalDateTime.now(),
